@@ -50,7 +50,7 @@
 		select  q.qna_num,q.qna_ref,q.qna_lev,q.qna_content,q.qna_regdate,ci.tutor_nickname,ci.pro_num
         from commu_qna q, community cm, class_info ci 
         where ci.class_num=cm.class_num and qna_lev=1 and qna_ref=#{qna_ref} and cm.commu_num=#{commu_num}
-        order by qna_ref desc,qna_num asc;
+        order by qna_ref desc,qna_num asc
 	</select>
 	<select id="count" resultType="int" parameterType="hashmap">
 		select ifnull(count(*),0) from	commu_qna
@@ -61,7 +61,7 @@
 		from community comm
 		inner join (select class_num from class_info where ml_num = #{ml_num}) ci
 		on comm.class_num = ci.class_num
-		where comm.class_num = #{class_num} ;
+		where comm.class_num = #{class_num}
 	</select>
 	<update id="editQna" parameterType="hashmap">
 		update commu_qna set qna_content=#{qna_content} where qna_num=#{qna_num}

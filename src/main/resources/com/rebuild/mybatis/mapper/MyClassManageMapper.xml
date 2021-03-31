@@ -49,7 +49,7 @@
 	
 	<!-- a 목록 카운팅 -->
 	<select id="MyClassCounting" parameterType="hashmap" resultType="int">
-		select NVL(count(*),0) cnt from
+		select ifnull(count(*),0) cnt from
 		(
 		select aa.class_num, aa.class_title, aa.date_num, bb.apply_num, bb.ml_num, bb.pro_num, bb.mb_name, bb.mb_nickname, bb.apply_auth, bb.final_price, bb.class_fee, bb.apply_regdate 
 		from 

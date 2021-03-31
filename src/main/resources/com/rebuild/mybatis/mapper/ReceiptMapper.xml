@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="count" resultType="int"> 
-		select NVL(count(*),0) cnt 
+		select ifnull(count(*),0) cnt 
 		from (select ci.class_title, ci.class_num, ci.class_form, p.pay_regdate, p.pay_num, p.final_price/2 final_price, p.class_finish, ml.id, mi.mb_nickname,img.pro_num
 		from class_info ci, payment p, member_login ml, member_info mi, profile_img img
 		where ci.class_num = p.class_num and ml.ml_num=p.ml_num and ml.ml_num = mi.ml_num and mi.pro_num=img.pro_num and class_finish=1)aa

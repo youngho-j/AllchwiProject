@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +24,9 @@ import com.rebuild.project.vo.community.*;
 public class NoticeController {
 	@Autowired
 	private NoticeService nts;
-
-	// a 커뮤니티 페이지로 이동
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	// a 커뮤니티  공지사항 페이지로 이동
 	@GetMapping("/community/notice")
 	public String goNotice(Model model, HttpSession session,
 			@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
@@ -43,6 +46,8 @@ public class NoticeController {
 		List<NoticeVO> list = nts.noticeList(map);
 		model.addAttribute("list", list);
 		model.addAttribute("pu", pu);
+		
+		log.debug("커뮤니티 공지사항 페이지로 이동");
 		return ".community.notice.main";
 	}
 
@@ -54,6 +59,7 @@ public class NoticeController {
 		// 세션에 저장 되어있는 commuVo 꺼내오기
 		CommunityVO commu = (CommunityVO) session.getAttribute("commuInfo");
 		model.addAttribute("commu", commu);
+		log.debug("커뮤니티 공지사항 글 작성 모달창");
 		return "community/notice/writeNotice";
 	}
 
@@ -102,6 +108,7 @@ public class NoticeController {
 			model.addAttribute("ntv", ntv);
 			model.addAttribute("next", next);
 			model.addAttribute("prev", prev);
+			log.debug("커뮤니티 공지사항 상세 페이지로 이동");
 			return ".community.notice.noticeDetail";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,6 +122,7 @@ public class NoticeController {
 		//삭제 성공시
 		if(result > 0) {
 			//메인페이지 호출하는 컨트롤러로 이동
+			log.debug("커뮤니티 공지사항 글 삭제 후 공지사항 페이지로 이동");
 			return "redirect:/community/notice";
 		} else {
 			return ".error.error";
@@ -129,6 +137,7 @@ public class NoticeController {
 			ntv = nts.getDetail(notice_num);
 			model.addAttribute("ntv", ntv);
 			//updateNotice jsp로 이동
+			log.debug("커뮤니티 공지사항 수정 모달창 띄우기");
 			return "community/notice/updateNotice";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,6 +152,7 @@ public class NoticeController {
 		// insert 후 공지사항 페이지로 리다이렉트
 		if(result > 0) {
 			//메인페이지 호출하는 컨트롤러로 이동
+			log.debug("커뮤니티 공지사항 글 수정 후 공지사항 페이지로 이동");
 			return "redirect:/community/notice";
 		} else {
 			return ".error.error";

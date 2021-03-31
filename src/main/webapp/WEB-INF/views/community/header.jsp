@@ -43,7 +43,7 @@ body {
         <a href="${cp }/onclass/community?class_num=${commuInfo.class_num}">${commuInfo.commu_title}</a>
       </div>
       <div class="col-3 d-flex justify-content-end align-items-center">
-        <a class="btn btn-sm btn-outline-secondary" href="#">출석체크</a>
+        <a class="btn btn-sm btn-outline-secondary" href="#"></a>
       </div>
     </div>
       <div class="nav-scroller py-1 mb-2">
@@ -52,9 +52,6 @@ body {
 	      <a class="p-2 text-muted" href="${cp}/community/archive">자료실</a>
 	      <a class="p-2 text-muted" href="${cp}/community/mediaList">강의듣기</a>
 	      <a class="p-2 text-muted" href="${cp}/community/assignment">과제</a>
-	      <!-- a 자유게시판 안써요
-	      <a class="p-2 text-muted" href="${cp}/community/freeboard">자유게시판</a>
-	       -->
 	      <a class="p-2 text-muted" href="${cp}/community/qna">QnA</a>
 	    </nav>
 	  </div>

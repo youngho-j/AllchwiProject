@@ -134,7 +134,6 @@
 		var cp = '<c:out value="${cp}"/>'
 		location.href= cp + "/myClass/myClassManage?class_num="+cn
 		*/
-		console.log("실행되는중" + cn);
 		//a 동적으로 form을 생성하여 파라미터 값을 보내줌.
 		var form = document.createElement("form");
 		form.setAttribute("charset", "utf-8");

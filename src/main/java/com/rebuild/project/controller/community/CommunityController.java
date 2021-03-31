@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ public class CommunityController {
 	@Autowired
 	private ClassImgService cis;
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("/onclass/community")
 	public String adminMain(HttpSession session,int class_num, Model model) {
@@ -40,7 +43,6 @@ public class CommunityController {
 		int ml_num = (int)session.getAttribute("ml_num");
 		
 		map.put("ml_num", ml_num);
-		System.out.println(class_num + "  " +ml_num );
 		map.put("class_num", class_num);
 		
 		CommunityVO vo = service.goCommu(map);
@@ -55,8 +57,7 @@ public class CommunityController {
 			model.addAttribute("noticeCount", noticeCount);
 			model.addAttribute("assignCount", assignCount);
 			model.addAttribute("classImg", classImg);
-			//session.setAttribute("noticeCount", noticeCount);
-			//session.setAttribute("assignCount", assignCount);
+			log.debug("온라인 커뮤니티로 이동");
 			return ".community";			
 		}else {
 			return ".error.error";

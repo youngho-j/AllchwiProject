@@ -24,13 +24,6 @@ style>.carousel-inner {
 <div class="container">
 	<!-- jumbotron 패딩 사이즈 0으로 변경 -->
 	<div class="jumbotron p-0 p-md-0 text-white rounded bg-light">
-		<!-- a 기존 온라인 클래스 틀 
-    <div class="col-md-6 px-0">
-      <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
-      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
-      <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
-    </div>
-     -->
 		<!-- 메인 배너  -->
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-ride="carousel">

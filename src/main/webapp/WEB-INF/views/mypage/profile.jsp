@@ -9,9 +9,6 @@
 		<div class="profileHead">
 			<h1>내 프로필</h1>
 		</div>
-		<!-- 
-		<c:out value="${result.pro_img}"/>
-		 -->
 		<!--profile body-->
 		<div class="container">
 			<div class="inner-cont" style="padding-top: 0">
@@ -40,8 +37,7 @@
 				<div class="label-title">닉네임</div>
 				<div class="contents">
 					<input type="text" placeholder="닉네임을 입력해주세요" id="nickname" name="mb_nickname" class="form-control" value="${result.mb_nickname}">
-					<p class="regintxt01 clearbt redtxt">ex) 열정만수르, 요조숙녀, 열혈남 (8자
-						이내)</p>
+					<p class="regintxt01 clearbt redtxt">ex) 열정만수르, 못먹어도고 등 (8자 이내)</p>
 					<div class="count_char">
 						<font id="nick-count">0</font>/8
 					</div>
@@ -70,7 +66,6 @@ $('#picture').change(function (e) {
 
 	var reader = new FileReader();
 	reader.onload = function() {
-		//$('#picture-cover').css("background-image", "url('"+reader.result+"')");			
 		$('#picture-cover').css("background-image", "url('"+reader.result+"')");
 		$('#proImg').css("opacity",0);
 	}
