@@ -82,6 +82,7 @@ public class CommunityController {
 		int n = service.selectChk(map);
 		
 		if(n > 0) {
+			log.debug("classMyBoard.jsp로 이동");
 			return "already";
 		}else {
 			try {

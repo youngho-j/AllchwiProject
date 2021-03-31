@@ -70,6 +70,7 @@ public class NoticeController {
 		// insert 후 공지사항 페이지로 리다이렉트
 		//result값으로 값이 DB에 저장되었는지 판단 필요!!
 		if(result > 0) {
+			log.debug("공지 DB에 입력 후 공지사항 페이지로 이동");
 			return "redirect:/community/notice";			
 		} else {
 			// 오류시 처리 필요!!
@@ -89,9 +90,11 @@ public class NoticeController {
 		int result = nts.adminCheck(map);
 		if (result == 1) {
 			// 카운트 1 -> 관리자 o
+			log.debug("관리자로 커뮤니티 입장");
 			json.put("code", "success");
 		} else {
 			// 카운트 0 -> 관리자 x
+			log.debug("회원으로 커뮤니티 입장");
 			json.put("code", "fail");
 		}
 		return json.toString();
