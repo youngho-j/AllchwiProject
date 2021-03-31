@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AdminStatisticMapper">
+	<select id="list" resultType="com.rebuild.project.vo.admin.Statistic1VO" parameterType="hashmap">
+		SELECT MONTH(regdate) AS month, sum(pay) monthlySum, sum(revenue) monthlyRevenue
+		FROM sales 
+	    <![CDATA[	WHERE year(regdate) >= #{thisyear} AND year(regdate) < #{nextyear} ]]>
+		GROUP BY month
+		WITH ROLLUP
+	</select>
+
+	<select id="cate_statlist" resultType="com.rebuild.project.vo.admin.Statistic3VO" >
+		select count(*) cate_count, b.bcategory_name
+		from big_category b, small_category s
+		where b.bcategory_num = s.bcategory_num
+		group by b.bcategory_num with rollup
+	</select>
+	
+	<select id="top_statlist" resultType="com.rebuild.project.vo.admin.Statistic2VO">
+		select count(*) cnt, (select class_title from class_info cc where cc.class_num=ww.class_num) title 
+		from wishlist ww group by class_num order by cnt desc limit 0,9
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+

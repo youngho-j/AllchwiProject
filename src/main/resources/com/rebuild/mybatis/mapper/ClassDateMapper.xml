@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ClassDateMapper">
+	
+	<insert id="insert" parameterType="classDate">
+		insert into class_date values(0,#{class_num},#{class_date},#{class_startTime},#{class_endTime},
+			#{class_comment},#{class_msg},#{class_month},#{time_ref},#{time_cnt},now())
+		<selectKey keyProperty="date_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+<!-- 	<select id="dateArray" parameterType="int" resultType="classDate">
+		select * from class_date where class_num=#{class_num} 
+		<![CDATA[and CURDATE() <= class_date]]> 
+		order by time_ref desc,class_date asc,time_cnt desc;
+	</select> -->
+	
+	<!-- 수업 날짜 가져오기.(다회차 수업 날짜 한번에 가져오는 collection -->
+	<resultMap type="classDate" id="classDateList">
+		<result column="date_num" property="date_num"/>
+		<result column="class_date" property="class_date"/>
+		<result column="class_num" property="class_num"/>
+		<result column="class_startTime" property="class_startTime"/>
+		<result column="class_endTime" property="class_endTime"/>
+		<result column="class_month" property="class_month"/>
+		<result column="time_ref" property="time_ref"/>
+		<result column="time_cnt" property="time_cnt"/>
+		<result column="class_title" property="class_title"/>
+		<result column="class_price" property="class_price"/>
+		<result column="class_hour" property="class_hour"/>
+		<result column="class_count" property="class_count"/>
+		<collection property="list" column="{class_num=class_num,time_ref=time_ref}"  ofType="classDate" select="dateRefList"/>
+	</resultMap>
+	
+	<select id="dateArray" parameterType="int" resultMap="classDateList">
+		<![CDATA[select date_num,cd.class_num,class_date,class_startTime,class_endTime,class_month,time_ref,time_cnt,
+		class_title,class_price, class_hour,class_count,class_comment
+		 from class_date cd, class_info ci 
+		 where cd.class_num=ci.class_num and cd.class_num=#{class_num} and CURDATE() <= class_date and time_cnt=1]]>
+	</select>
+	<select id="dateRefList" parameterType="hashmap" resultType="classDate">
+		select date_num,class_date,class_num,class_startTime,class_endTime,class_month,time_ref,time_cnt 
+		from class_date
+		where class_num=#{class_num} and time_ref=#{time_ref} and time_cnt!=1
+	</select>
+	
+	<select id="list" parameterType="int" resultType="classDate">
+		select date_num, cd.class_num, class_title, class_price, class_hour, class_count,
+		class_date, class_startTime, class_endTime, class_comment, class_msg, date_regdate
+		from class_date cd, class_info ci
+		where cd.class_num=ci.class_num and cd.class_num=#{class_num}
+	</select>
+	
+	<update id="refUpdate" parameterType="int">
+		update class_date set time_ref=#{ref} where date_num=#{ref}
+	</update>
+	
+	<delete id="delDate" parameterType="int">
+		delete from class_date where time_ref=#{date_num}
+	</delete>
+	
+</mapper>
+

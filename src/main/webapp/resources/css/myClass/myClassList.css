@@ -1,0 +1,244 @@
+@charset "UTF-8";
+.container {
+    margin: 0 auto;
+}
+.container .title-box {
+    position: relative;
+    padding-top: 60px;
+    border-bottom: 1px solid #e4e4e4;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+.container .title-box h1 {
+    float: left;
+    font-size: 26px;
+    color: #333;
+    line-height: 1.85;
+    padding-bottom: 10px;
+}
+.container .title-box ul {
+    display: flex;
+    position: absolute;
+    margin-top: 15px;
+    right: 0;
+    overflow: visible;
+}
+.container .title-box ul li.on {
+    color: #333;
+    border-bottom: 2px solid #333;
+    font-weight: 500;
+}
+.container .title-box ul li {
+    cursor: pointer;
+    font-size: 16px;
+    color: #555;
+    letter-spacing: -0.4px;
+    margin: 0 30px;
+    box-sizing: border-box;
+    text-align: center;
+    padding-bottom: 20px;
+}
+li {
+    list-style: none;
+}
+.container .class-box {
+    border-bottom: 1px solid #cccfd3;
+    margin-bottom: 30px;
+}
+.container .class-box .class-info {
+    padding-bottom: 30px;
+    display: flex;
+}
+a, span {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-decoration: none;
+}
+.container .class-box .class-info .image {
+    width: 320px;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+}
+.container .class-box .class-info .information-box {
+    width: 690px;
+    padding-top: 10px;
+    margin-left: 30px;
+}
+.container .class-box .class-info .information-box p {
+    font-size: 14px;
+    color: #888;
+    letter-spacing: -0.35px;
+}
+.container .class-box .class-info .information-box h3 {
+    color: #333;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    line-height: 2;
+    height: 40px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.container .class-box .stars-box .class-type {
+    color: #888;
+    letter-spacing: -0.35px;
+    font-size: 14px;
+}
+.container .class-box .stars-box .class-stars img {
+    width: 15px;
+    margin-left: -2px;
+    margin-bottom: 3px;
+    vertical-align: middle;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: top;
+}
+.container .class-box .stars-box span {
+    font-size: 14px;
+    color: #888;
+    letter-spacing: -0.35px;
+}
+.container .class-box .class-info .information-box .start-date {
+    margin-top: 10px;
+    color: #888;
+    font-size: 14px;
+    letter-spacing: -0.35px;
+}
+.container .class-box .class-info .information-box .review-fold.on {
+    color: #ff005a;
+}
+.container .class-box .class-info .information-box .review-fold {
+    font-size: 14px;
+    color: #888;
+    letter-spacing: -0.35px;
+    line-height: 2.36;
+    margin-top: 10px;
+}
+.container .cursor {
+    cursor: pointer;
+}
+.container .class-box .class-info .information-box .review-fold .arrw-box {
+    overflow: hidden;
+    display: inline-block;
+}
+.container .class-box .class-info .information-box .review-fold .arrw {
+    margin-top: -13px;
+    margin-left: 5px;
+    position: absolute;
+    width: 16px;
+}
+.container .class-box .class-info .information-box .review-fold .arrw.up {
+    display: none;
+}
+.container .class-box .class-info .information-box .price {
+    font-size: 24px;
+    letter-spacing: -0.6px;
+    color: #ff005a;
+    font-weight: 500;
+    text-align: right;
+    margin-top: -25px;
+}
+.container .class-box .class-info .information-box .price font {
+    font-size: 14px;
+}
+.container .class-box .review-info.textarea {
+    padding: 0;
+    height: initial;
+}
+.container .class-box .review-info {
+    border: 1px solid #cccfd3;
+    padding: 30px;
+    box-sizing: border-box;
+    display: none;
+    margin-bottom: 30px;
+}
+.container .class-box .review-info.textarea > div {
+    overflow: hidden;
+}
+.container .class-box .review-info textarea {
+    width: 100%;
+    height: 110px;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.57;
+    padding: 20px;
+    background: #fff;
+    box-sizing: border-box;
+    resize: none;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+.container .class-box .review-info.textarea .stars-box {
+    height: 41px;
+    border-top: 1px solid #cccfd3;
+}
+.container .class-box .review-info.textarea > div {
+    overflow: hidden;
+}
+.container .class-box .review-info.textarea .stars {
+    padding: 10px;
+    display: inline-block;
+    color: #888;
+}
+.container .class-box .review-info .glyphicon.glyphicon-star.active {
+    color: #ffc600;
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.container .class-box .review-info.textarea .stars font {
+    color: #888;
+    font-size: 14px;
+    line-height: 1.57;
+    margin-left: 5px;
+}
+.container .class-box .review-info.textarea .regi-button {
+    border-left: 1px solid #cccfd3;
+    padding: 9px;
+    width: 68px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    float: right;
+}
+.glyphicon-star:before {
+    content: "☆";
+}
+.apply-auth{
+	
+	float:right;
+	cursor: pointer;
+}
+
+.button_gray{
+	padding: 9px;
+    box-sizing: border-box;
+    background: #555;
+    text-align: center;
+    font-size: 14px;
+    line-height:15px;
+    color: #fff;
+    border-radius: 4px;
+    letter-spacing: -0.35px;
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+}

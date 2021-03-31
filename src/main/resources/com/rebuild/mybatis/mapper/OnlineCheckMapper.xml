@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.OnlineCheckMapper">
+	<select id="select" parameterType="onlineCheck" resultType="int">
+		select IFNULL(max(check_num),0) check_num from online_check where ml_num=#{ml_num} and online_num=#{online_num}
+	</select>
+	<insert id="insert" parameterType="onlineCheck">
+		insert into online_check values(#{check_num},#{ml_num},#{online_num},#{view_point},now())
+		on duplicate key update
+		check_num=#{check_num},view_point=#{view_point},view_regdate=now()
+	</insert>
+	<select id="timeSelect" parameterType="hashmap" resultType="int">
+		select IFNULL(max(view_point),0) view_point from online_check where ml_num=#{ml_num} and online_num=#{online_num}
+	</select>
+	<delete id="delete" parameterType="int">
+		delete from online_check where online_num=#{online_num};
+	</delete>
+	
+</mapper>

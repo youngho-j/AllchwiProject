@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.CommunityArchiveMapper">
+
+	<insert id="insert" parameterType="com.rebuild.project.vo.community.ArchiveVO" useGeneratedKeys="true" keyProperty="room_num">
+		insert into ref_room values(0,#{commu_num},#{room_title},#{room_content},now(),0,#{horsehead},#{org_filename},#{save_filename},#{filesize})
+		<selectKey keyProperty="room_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<delete id="delete" parameterType="int" >
+		delete from ref_room where room_num = #{room_num}
+	</delete>
+	
+	<update id="update" parameterType="com.rebuild.project.vo.community.ArchiveVO">
+		update ref_room set room_title = #{room_title},room_content=#{room_content},room_regdate=now(),horsehead=#{horsehead}
+		<if test="org_filename!=null and org_filename!=''">
+		,org_filename=#{org_filename},save_filename=#{save_filename}, filesize=#{filesize} 
+		</if>
+		where room_num = #{room_num} 	
+	</update>
+	
+	<select id="getInfo" resultType="com.rebuild.project.vo.community.ArchiveVO" parameterType="int">
+		select * from ref_room where room_num=#{room_num}
+	</select>
+	
+	
+	<select id="list" resultType="com.rebuild.project.vo.community.ArchiveVO" parameterType="hashmap">
+		select * from ref_room where commu_num = #{commu_num} order by room_num desc
+		limit #{startRow},6
+	</select>
+	
+	<select id="count" resultType="int" parameterType="int">
+		select ifnull(count(*),0) cnt from ref_room where commu_num = #{commu_num}
+	</select>
+	
+	
+	<select id="detail" resultType="com.rebuild.project.vo.community.ArchiveVO" parameterType="int">
+		select * from ref_room where room_num=#{room_num}	
+	</select>
+	
+	
+	
+	<!-- 조회수 증가하기 -->
+	<update id="hit" parameterType="int">
+		update ref_room set room_view=room_view+1 where room_num=#{room_num}
+	</update>
+	
+	<!-- 다음글 -->
+	<select id="next" parameterType="int" resultType="com.rebuild.project.vo.community.ArchiveVO">
+		select * from(
+		 	  select * from ref_room where room_num>#{room_num}
+		   		order by room_num asc
+		) aa
+		limit 1
+	</select>
+	
+	<!-- 이전글 -->
+	<select id="prev" parameterType="int" resultType="com.rebuild.project.vo.community.ArchiveVO">
+	   <![CDATA[  select * from ref_room where room_num<#{room_num} order by room_num desc limit 1 ]]>
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

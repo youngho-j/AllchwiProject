@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ClassDetailMapper">
+	<resultMap type="classDetail" id="classDetail">
+		<result column="class_num" property="class_num"/>
+		<result column="ml_num" property="ml_num"/>
+		<result column="sloc_num" property="sloc_num"/>
+		<result column="pro_num" property="pro_num"/>
+		<result column="tutor_nickname" property="tutor_nickname"/>
+		<result column="class_address" property="class_address"/>
+		<result column="class_form" property="class_form"/>
+		<result column="class_max" property="class_max"/>
+		<result column="class_min" property="class_min"/>
+		<result column="class_date" property="class_date"/>
+		<result column="class_title" property="class_title"/>
+		<result column="class_price" property="class_price"/>
+		<result column="class_hour" property="class_hour"/>
+		<result column="class_count" property="class_count"/>
+		<result column="tutor_about" property="tutor_about"/>
+		<result column="class_about" property="class_about"/>
+		<result column="class_target" property="class_target"/>
+		<result column="tutor_phone" property="tutor_phone"/>
+		<result column="cover_num" property="cover_num"/>
+		<result column="sloc_name" property="sloc_name"/>
+		<result column="bloc_name" property="bloc_name"/>
+		<result column="scategory_num" property="scategory_num"/>
+		<result column="bcategory_num" property="bcategory_num"/>
+		<collection property="coverList" column="class_num"  ofType="classInfo" select="coverList"/>
+		<collection property="certList" column="class_num"  ofType="cert" select="certList"/>
+		<collection property="curriList" column="class_num"  ofType="classCurri" select="curriList"/>
+	</resultMap>
+	
+	<select id="getDetail" parameterType="hashmap" resultMap="classDetail">
+		select ci.class_num,ci.ml_num,ci.pro_num,ci.tutor_nickname,ci.class_address,ci.class_form,
+		ci.class_max,ci.class_min,ci.class_title,ci.class_price,ci.class_hour,ci.class_count,
+		ci.class_target,ci.class_about,ci.tutor_about,ci.tutor_phone,ci.scategory_num,
+		(
+			select b.bcategory_num from 
+			big_category b, small_category s 
+			where b.bcategory_num=s.bcategory_num and s.scategory_num=ci.scategory_num
+		)bcategory_num ,
+		loc.sloc_name,loc.bloc_name
+		FROM class_info ci,
+		(
+				select sloc_num, sloc_name, bloc_name 
+		        from  small_location s, big_location b 
+		        where s.bloc_num=b.bloc_num 
+		)loc
+		where loc.sloc_num=ci.sloc_num and ci.class_num=#{class_num}
+	     
+	</select>
+	
+	<select id="coverList" parameterType="int" resultType="classInfo">
+		SELECT cover.cover_num , 
+		ROW_NUMBER() OVER (PARTITION BY cover.class_num ORDER BY cover_regdate DESC) cnt 
+		FROM class_img cover,class_info ci
+		where cover.class_num=ci.class_num and cover.class_num=#{class_num}
+	</select>
+	<select id="certList" parameterType="int" resultType="cert">
+		select certif_num,certif_name
+		from certificate
+		where class_num=#{class_num}
+	</select>
+	<select id="curriList" parameterType="int" resultType="classCurri">
+		select curri_count,curri_content
+		from curriculum
+		where class_num=#{class_num}
+	</select>
+	<!-- 변경 wishlist 누적 카운팅으로  -->
+	<select id="topFive" resultType="classDetail">
+			select  count(*) cnt,ci.class_num,ci.ml_num,ci.pro_num,ci.tutor_nickname,ci.class_address,ci.class_form,
+			ci.class_title,ci.class_price,ci.scategory_num,	loc.sloc_name,loc.bloc_name, class_date, cover_num
+			FROM class_info ci,
+			
+			(
+					select sloc_num, sloc_name, bloc_name 
+			        from  small_location s, big_location b 
+			        where s.bloc_num=b.bloc_num 
+			)loc, 
+			
+			(
+				select count(class_num) cnt, class_num
+				from wishlist
+				group by class_num
+            )w,
+			
+			class_date cd,
+			   ( 
+					SELECT  class_num , cover_num , ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+					FROM class_img group by class_num
+				) cover
+			where loc.sloc_num=ci.sloc_num
+	        and w.class_num=ci.class_num
+	        and cd.class_num=w.class_num
+	        and cover.class_num=ci.class_num
+	       	and class_auth=2 and class_status=0
+		 	group by class_num 
+			order by cnt desc
+	    	limit 0,8
+	</select>
+</mapper>

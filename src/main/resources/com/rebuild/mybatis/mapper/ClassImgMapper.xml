@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ClassImgMapper">
+	<insert id="insert" parameterType="classImg">
+		insert into class_img values(null, #{class_num}, #{cover_name}, #{cover_file},now())
+	</insert>
+	
+	<select id="imgSelect" parameterType="int" resultType="classImg">
+		select cover_name,cover_file from class_img where cover_num=#{cover_num}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from class_img where cover_num=#{cover_num}
+	</delete>
+	
+	<!-- a 튜터번호로  이미지 가져오기 -->
+	<select id="imgList" parameterType="int" resultType="classImg">
+		select * from class_img where class_num=#{class_num}
+	</select>
+</mapper>
+

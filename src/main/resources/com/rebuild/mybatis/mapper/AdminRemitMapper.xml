@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AdminRemitMapper">
+	
+	<select id="remit_list" resultType="com.rebuild.project.vo.admin.AdminRemitVO" parameterType="hashmap">
+		select aa.* from
+		(select r.rem_regdate, r.rem_bank, r.rem_pay, r.rem_account, 
+		r.rem_status, p.pay_num, ci.ml_num, ci.tutor_nickname, ci.class_title, r.rem_revenue
+		from payment p, remit r, class_info ci
+		where p.pay_num= r.pay_num and p.class_num= ci.class_num) aa order by rem_regdate desc
+		
+		<if test="field!=null and field!=''"> 
+			where ${field} like CONCAT('%',#{keyword},'%') 	
+		</if> 
+		
+		limit #{startRow},5
+	</select>
+	
+	
+	<select id="count" resultType="int" parameterType="hashmap">
+		select ifnull(count(*),0) cnt from (select r.rem_regdate, r.rem_bank, r.rem_pay, r.rem_account, 
+		r.rem_status, p.pay_num, ci.ml_num, ci.tutor_nickname, ci.class_title,r.rem_revenue
+		from payment p, remit r, class_info ci
+		where p.pay_num= r.pay_num and p.class_num= ci.class_num) aa
+
+		<if test="field!=null and field!=''"> 
+			where ${field} like CONCAT('%',#{keyword},'%') 	
+		</if> 
+
+
+	</select>
+
+
+	<update id="accept" parameterType="int">
+		update remit set rem_status=1 where pay_num=#{pay_num}
+	</update>
+	
+	
+	<insert id="insertSales" parameterType="com.rebuild.project.vo.admin.SalesVO">
+		insert into sales values(null,#{pay_num},#{class_name},#{tutor_name},#{pay},now(),#{revenue})
+	</insert>
+	
+	
+
+</mapper>

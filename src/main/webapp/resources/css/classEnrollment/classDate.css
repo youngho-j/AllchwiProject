@@ -1,0 +1,198 @@
+@charset "UTF-8";
+.tutor_cont .dim2 {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    position: fixed;
+    z-index: 15;
+    left: 0;
+    display: none;
+}
+.tutor_cont .dim {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    position: fixed;
+    z-index: 15;
+    background: #333;
+    left: 0;
+    opacity: 0.8;
+    display: none;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.tutor_cont {
+    width: 1040px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+.tutor_cont, .tutor_cont div {
+    box-sizing: border-box;
+}
+.tutor_cont .title_box.right {
+    text-align: right;
+}
+.tutor_cont .title_box {
+    overflow: hidden;
+    margin-top: 30px;
+    padding: 19px 0;
+    border-bottom: 1px solid #c9c9c9;
+}
+.tutor_cont .title_box h3 {
+    float: left;
+    overflow: hidden;
+    display: inline-block;
+    font-size: 26px;
+    color: #333;
+}
+.tutor_cont .pink {
+    color: #ff005a;
+}
+.tutor_cont .box {
+    display: flex;
+    padding: 30px 0;
+    border-bottom: 1px solid #d8d9db;
+}
+.tutor_cont .box .title {
+    width: 220px;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 14px;
+    font-weight: bold;
+}
+.tutor_cont .box .inner1 {
+    margin-top: 30px;
+    overflow: hidden;
+}
+.tutor_cont .box .inner1 .title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 0;
+    width: initial;
+}
+.tutor_cont .box .inner1 .class {
+    color: #888;
+    font-size: 16px;
+    border-bottom: 1px solid #d8d9db;
+    margin: 0;
+    padding: 10px 0;
+    cursor: pointer;
+}
+.tutor_cont .plus {
+    color: #fff;
+    background: #555;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 12px 20px;
+    display: inline-block;
+}
+.tutor_cont .plus img {
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+.tutor_cont textarea.hei190 {
+    height: 190px;
+}
+.tutor_cont textarea.len980 {
+    width: 100%;
+    height: 140px;
+    background: #fff;
+}
+.tutor_cont input.basic, .tutor_cont select.basic, .tutor_cont textarea.basic {
+    padding: 12px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+.tutor_cont .next {
+    background: #888;
+    color: #fff;
+    padding: 20px 30px;
+    width: 230px;
+    margin: 40px auto;
+    font-size: 16px;
+    border-radius: 6px;
+    text-align: center;
+}
+.title{
+	width: 30%;
+}
+.cont{
+	width: 100%;
+}
+.tutor_cont .button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+iframe {
+    border: 0 none;
+}
+
+.class {
+    color: #888;
+    font-size: 16px;
+    border-bottom: 1px solid #d8d9db;
+    margin: 0;
+    padding: 10px 0;
+    cursor: pointer;
+}
+ .class .intext {
+    width: 650px;
+    display: inline-block;
+    font-size: 16px;
+}
+.class .intext .dwn {
+    display: block;
+}
+.class .intext img {
+    float: right;
+    margin-right: 30px;
+    margin-top: 6px;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: top;
+}
+.class .intext .up {
+    display: none;
+}
+.class.on .intext .up {
+    display: block;
+}
+.verify {
+    display: inline-block;
+    font-size: 14px;
+    color: #444;
+    border-radius: 4px;
+    padding: 12px 20px;
+    border: solid 1px #aaa;
+    cursor: pointer;
+}
+.verify img {
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+.class .subtext {
+    width: 100%;
+    font-size: 14px;
+    display: none;
+}
+.class .subtext .ch {
+    font-size: 15px;
+    line-height: 1.4;
+}
+.class .subtext .ch font {
+    color: #000;
+    font-weight: 300;
+    margin-right: 5px;
+}
+.class.on .intext .dwn {
+    display: none;
+}
+.left10 {
+    margin-left: 10px;
+}

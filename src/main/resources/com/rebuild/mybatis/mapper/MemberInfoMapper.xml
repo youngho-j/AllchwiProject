@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.MemberInfoMapper">
+	<!--1 회원번호, 로그인번호(참조), 이미지번호(참조), 이름, 전화번호, 닉네임, 내소개, 탈퇴여부, 탈퇴사유, 등록 및 수정일 // 회원가입시에는 회원번호 로그인번호 이미지번호 이름 등록일만-->
+	<insert id="addInfo" parameterType="miv">
+		insert into member_info values (0, #{ml_num}, #{pro_num}, #{mb_name}, #{mb_phone}, #{mb_nickname}, #{mb_about}, #{mb_auth}, #{mb_reason}, now())
+	</insert>
+	<!--2 회원탈퇴 사유 업데이트, 나중에 id 회원번호로 변경할 것 -->
+	<update id="updateSignout" parameterType="hashmap">
+		update member_info set mb_auth = #{mb_auth}, mb_reason = #{mb_reason} where ml_num = #{ml_num}
+	</update>
+	<!--3 회원번호로 login, info, profileImg 테이블 조인하여 회원정보 조회 -->
+	<select id="selectInfo" parameterType="int" resultType="pfv">
+		select info.*, p.pro_img
+		from
+		(select l.ml_num, l.id, i.mb_name, i.mb_nickname, i.mb_about, i.pro_num 
+		from member_login l, member_info i
+		where l.ml_num = i.ml_num) info, profile_img p 
+		where info.pro_num = p.pro_num and ml_num = #{ml_num};
+	</select>
+	<!--4 회원번호로 info테이블 업데이트  -->
+	<update id="updateInfo" parameterType="hashmap">
+		update member_info set mb_nickname = #{mb_nickname}, mb_about = #{mb_about} where ml_num = #{ml_num}
+	</update>
+	<!-- 5 회원번호로 profile테이블 이미지번호 검색 -->
+	<select id="selectProNum" parameterType="int" resultType="int">
+		select pro_num from member_info where ml_num = #{ml_num};
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

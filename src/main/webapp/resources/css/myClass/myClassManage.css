@@ -1,0 +1,101 @@
+@charset "UTF-8";
+.container {
+    margin: 0 auto;
+}
+.container .title-box {
+    position: relative;
+    padding-top: 60px;
+    border-bottom: 1px solid #e4e4e4;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+.container .title-box h1 {
+    float: left;
+    font-size: 26px;
+    color: #333;
+    line-height: 1.85;
+    padding-bottom: 10px;
+}
+.container .title-box select {
+    display: flex;
+    position: absolute;
+    margin-top: 15px;
+    right: 0;
+    overflow: visible;
+}
+.container .class-box {
+    border-bottom: 1px solid #cccfd3;
+    margin-bottom: 30px;
+}
+.container .class-box .class-info {
+    padding-bottom: 30px;
+    display: flex;
+    padding-left: 8%;
+}
+a, span {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-decoration: none;
+}
+#member{
+	display: inline-block; 
+	vertical-align: bottom; 
+	text-align: center;
+}
+.container .class-box .class-info .information-box {
+    width: 690px;
+    padding-top: 10px;
+    margin-left: 30px;
+}
+.container .class-box .class-info .information-box p {
+    font-size: 14px;
+    color: #888;
+    letter-spacing: -0.35px;
+    padding-top: 5%;
+}
+.container .class-box .class-info .information-box h3 {
+    color: #333;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    line-height: 2;
+    height: 40px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: top;
+}
+.container .class-box .class-info .information-box .start-date {
+    margin-top: 10px;
+    color: #888;
+    font-size: 14px;
+    letter-spacing: -0.35px;
+}
+.container .class-box .class-info .information-box .start-date > button{
+	float: right;
+}
+.container .class-box .class-info .information-box .price {
+    font-size: 24px;
+    letter-spacing: -0.6px;
+    color: #ff005a;
+    font-weight: 500;
+    text-align: right;
+    margin-top: -14%;
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+.container .class-box .class-info .information-box .price font {
+    font-size: 14px;
+}
+
+input, optgroup, select {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}

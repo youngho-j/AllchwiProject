@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.CertificateMapper">
+	<insert id="insert" parameterType="cert">
+		insert into certificate value(null,#{class_num},#{certif_filename},#{certif_file},#{certif_name},now())
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from certificate where certif_num=#{certif_num}
+	</delete>
+	
+	<!-- 자격증 번호로로  이미지 가져오기 -->
+	<select id="imgList" parameterType="int" resultType="cert">
+		select * from certificate where certif_num=#{certif_num}
+	</select>
+	
+	
+	
+</mapper>
+

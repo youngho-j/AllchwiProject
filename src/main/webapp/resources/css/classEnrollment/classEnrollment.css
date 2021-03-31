@@ -1,0 +1,263 @@
+@charset "UTF-8";
+.classOpen{
+	margin:auto;
+	width: 60%;
+}
+::placeholder {
+  font-size: 14px;
+}
+option{
+	font-size: 14px;
+}
+
+.title_box h3 {
+	float: left;
+	display: inline-block;
+}
+
+.title_box .steps {
+	float: right;
+	display: flex;
+}
+
+.tab-content {
+	display: block;
+}
+
+.title_box {
+	overflow: hidden;
+	margin-top: 30px;
+	padding: 19px 0;
+	border-bottom: 1px solid #c9c9c9;
+}
+.box{
+	width:100%;
+    display: flex;
+    padding: 30px 0;
+    border-bottom: 1px solid #d8d9db;
+}
+.title{
+    width: 30%;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 14px;
+    font-weight: bold;
+}
+.cont{
+	width: 70%;
+	box-sizing: border-box;
+}
+
+.info1{
+    margin-top: 10px;
+    padding: 20px 0;
+    text-align: right;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #d8d9db;
+    letter-spacing: -0.35px;
+}
+.pink{
+	color: #ff005a;
+}
+
+.box .pf {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-top: 20px;
+    float: left;
+    margin-right: 20px;
+}
+.box .upf {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+}
+.box .upf_b {
+    position: absolute;
+    margin-left: 95px;
+    margin-top: 90px;
+}
+.verify {
+    display: inline-block;
+    font-size: 14px;
+    color: #444;
+    border-radius: 4px;
+    padding: 12px 20px;
+    border: solid 1px #aaa;
+    cursor: pointer;
+}
+.certificate{
+	margin-top: 10px;
+}
+.certificate_title{
+	font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 0;
+    width: initial;
+    font-weight: bold;
+    color: #333;
+}
+.certificate_gray{
+	line-height: 1.29;
+    font-size: 14px;
+    color: #888;
+
+}
+.button_box {
+    width: 480px;
+    margin: 40px auto 40px auto;
+    text-align: center;
+}
+div{
+	margin: 0;
+    padding: 0;
+    color: #111;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+}
+.plus {
+	margin-top: 10px;
+    color: #fff;
+    background: #555;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 12px 20px;
+    display: inline-block;
+}
+.btn_hover:hover{
+	opacity: 0.7;
+	cursor: pointer;
+}
+#CateMain{
+	font-size: 14px;
+	margin-right: 20px;
+}
+
+#CateSub{
+	font-size: 14px;
+}
+.box .rds .rd label {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    position: absolute;
+    margin-top: 2px;
+    margin-left: -25px;
+    cursor: pointer;
+    background-image: url(https://front-img.taling.me/Content/Images/Tutor/Images/radio_normal.png);
+    background-position: center;
+    background-size: cover;
+}
+.box .rds .rd label.on {
+    background-image: url(https://front-img.taling.me/Content/Images/Tutor/Images/radio_selected.png);
+}
+.box .rds {
+    display: flex;
+    width: 330px;
+}
+.box .rds .rd {
+    width: 36.3%;
+    padding-left: 25px;
+}
+.inner2{
+    margin-top: 20px;
+}
+.box .drag_cont .drag_box {
+    background: #edf0f4;
+    color: #555;
+    font-size: 16px;
+    width: 550px;
+    height: 353px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-top: 146px;
+    text-align: center;
+}
+.box .drag_cont .right {
+    margin-left: 20px;
+}
+.box .drag_cont {
+    display: flex;
+}
+.cover_img {
+    width: 120px;
+    margin-right: 23.5px;
+    float: left;
+    height: 79.7px;
+    box-sizing: border-box;
+    margin-top: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+.cover_img.on {
+    border: 2px solid #ff005a;
+}
+.box .caution2 {
+    background: #edf0f4;
+}
+.box .caution {
+    line-height: 1.57;
+    letter-spacing: -0.4px;
+    border-radius: 4px;
+    padding: 12px 24px;
+}
+.box .caution2 .rs {
+    width: 50%;
+    text-align: right;
+    float: right;
+    color: #555;
+    font-size: 20px;
+}
+.box .inner1 .title {
+	color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 0;
+    width: initial;
+}
+.box .inner1 {
+    margin-top: 30px;
+}
+
+textarea.len980 {
+ 	height: 190px;
+    background: #fff;
+}
+.form-control, .custom-select, textarea.basic {
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+.box .curri .index {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.71;
+    margin-bottom: 11px;
+    overflow: hidden;
+}
+.box .curri .index b {
+    color: #ff005a;
+    font-size: 24px;
+    margin-right: 3px;
+}
+.verified {
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 4px;
+    padding: 12px 20px;
+    border: solid 1px #ff936f;
+    background-color: #ff936f;
+    display: none;
+}

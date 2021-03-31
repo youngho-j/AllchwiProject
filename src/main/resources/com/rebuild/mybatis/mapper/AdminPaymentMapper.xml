@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AdminPaymentMapper">
+	<select id="payment_list" resultType="com.rebuild.project.vo.admin.AdminPaymentVO" parameterType="hashmap">
+		select * from 		
+		(select ml.ml_num, ml.id, p.pay_regdate, ci.class_title, p.pay_way, p. final_price
+		from member_login ml, payment p, class_info ci
+		where ml.ml_num = p.ml_num and p.class_num = ci.class_num) ee order by pay_regdate desc
+		<if test="field!=null and field!=''">
+			where ${field} like CONCAT('%',#{keyword},'%') 
+		</if>
+		limit #{startRow},5
+	</select>
+
+	<select id="count" resultType="int" parameterType="hashmap">
+		select ifnull(count(*),0) cnt from (select ml.ml_num, ml.id, p.pay_regdate, ci.class_title, p.pay_way, p. final_price
+		from member_login ml, payment p, class_info ci
+		where ml.ml_num = p.ml_num and p.class_num = ci.class_num) aa
+		
+		<if test="field!=null and field!=''">
+			where ${field} like CONCAT('%',#{keyword},'%')
+		</if>
+	</select>
+
+</mapper>

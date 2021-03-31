@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.rebuild.mybatis.mapper.ClassInfoMapper"> 
+	<insert id="insert" parameterType="classInfo">
+		insert into class_info values(null,#{ml_num},#{scategory_num},#{sloc_num},#{pro_num},
+		#{tutor_nickname},#{tutor_phone},#{class_address},#{class_form},#{class_max},#{class_min},
+		#{class_title},#{class_price},#{class_hour},#{class_count},#{tutor_about},#{class_about},#{class_target},now(),#{class_auth},#{class_status})
+		<selectKey keyProperty="class_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<sql id="class_num">
+		<if test="class_num !=null and class_num !=0">
+			and aa.class_num=#{class_num}
+		</if>
+	</sql>
+	
+	<select id="select" parameterType="int" resultType="classinfo">
+		select * from class_info where class_num=#{class_num}
+	</select>
+	
+	<select id="myBoard_list" parameterType="hashmap" resultType="hashmap">
+		SELECT aa.class_title,aa.class_num,aa.class_status,aa.class_regdate,aa.class_hour,
+		aa.class_auth,cover.cover_num,aa.class_form   
+		FROM class_info aa,
+		( 
+			SELECT  class_num , cover_num , 
+			ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate asc) cnt 
+			FROM class_img
+		) cover
+		where cover.class_num=aa.class_num and cnt=1 and aa.ml_num=#{ml_num} and class_status!=2 and class_auth != 3
+		<include refid="class_num"/>
+		order by class_regdate desc limit 1
+	</select>
+	
+	<select id="title_list" parameterType="int" resultType="classinfo">
+		select class_title,class_num from class_info where ml_num=#{ml_num} and class_status != 2 and class_auth !=3
+	</select>
+	
+		<select id="myClassList" parameterType="hashmap" resultType="myclassList">
+		select aa.apply_regdate,aa.apply_auth,aa.date_num,aa.class_fee,aa.pay_regdate,aa.class_date,aa.class_num,
+		bb.class_title,bb.scategory_name,bb.cover_num,aa.class_startTime,bb.class_form,aa.class_finish,aa.apply_num,
+		IFNULL(
+		(
+			select round((avg(curr_rating) + avg(ready_rating) + avg(kind_rating) + avg(time_rating))/4,1) class_rating
+			from class_review group by class_num having class_num=aa.class_num),0
+		) class_rating from
+		(
+			select a.apply_regdate,a.apply_num,a.apply_auth,a.date_num,p.class_fee,p.pay_regdate,d.class_date,d.class_num,d.class_startTime,p.class_finish  
+			from class_apply a, payment p,class_date d 
+			where a.ml_num=#{ml_num} and a.apply_num=p.apply_num and a.date_num=d.date_num
+		) aa,
+		(
+			select i.class_title,s.scategory_name,c.cover_num,i.class_status, i.class_num,i.class_form from class_info i,small_category s,
+			(
+			SELECT  class_num , cover_num ,	ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+			FROM class_img 
+			) c where c.class_num=i.class_num and i.scategory_num=s.scategory_num and cnt=1 and i.class_form=#{class_form}
+		) bb
+		where aa.class_num=bb.class_num and bb.class_status!=2
+		order by pay_regdate desc
+		limit #{startRow},2
+	</select>
+	
+	<select id="countFinish" parameterType="hashmap" resultType="int">
+	select count(*) count from
+	(
+	select aa.apply_regdate,aa.apply_auth,aa.date_num,aa.class_fee,aa.pay_regdate,aa.class_date,aa.class_num,
+		bb.class_title,bb.scategory_name,bb.cover_num,aa.class_startTime,bb.class_form,aa.class_finish,aa.apply_num,
+		IFNULL(
+		(
+			select round((avg(curr_rating) + avg(ready_rating) + avg(kind_rating) + avg(time_rating))/4,1) class_rating
+			from class_review group by class_num having class_num=aa.class_num),0
+		) class_rating from  
+		(
+			select a.apply_regdate,a.apply_num,a.apply_auth,a.date_num,p.class_fee,p.pay_regdate,d.class_date,d.class_num,d.class_startTime,p.class_finish  
+			from class_apply a, payment p,class_date d 
+			where a.ml_num=#{ml_num} and a.apply_num=p.apply_num and a.date_num=d.date_num
+		) aa,
+		(
+			select i.class_title,s.scategory_name,c.cover_num, i.class_num,i.class_form,i.class_status from class_info i,small_category s,
+			(
+			SELECT  class_num , cover_num ,	ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+			FROM class_img 
+			) c where c.class_num=i.class_num and i.scategory_num=s.scategory_num and cnt=1 and i.class_form=#{class_form}
+		) bb
+		where aa.class_num=bb.class_num and bb.class_status!=2
+	) tt
+	</select>
+	
+	<!-- '작은 지역' 검색 sql -->
+	<sql id="sloc">
+		<if test="sloc_num>0 ">
+			and loc.sloc_num=#{sloc_num}
+		</if>	
+	</sql>
+	
+	<!-- '키워드' 검색 sql -->
+	<sql id="keyword">
+		<if test="keyword!=null and keyword!=''">
+			and class_title like '%${keyword}%'
+		</if>
+	</sql>
+	
+	<!-- '날짜' 검색 sql -->
+	<sql id="date">
+		<if test="startDate!=null and startDate!='' and endDate!=null and endDate!=''">
+			and class_date between date('${startDate}') and date('${endDate}')+1
+		</if>
+	</sql>
+	
+	<!-- '작은 카테고리' 검색 sql -->
+	<sql id="smallcategory">
+		<if test="scategory_num>0 ">
+			and scategory_num=#{scategory_num}
+		</if>
+	</sql>
+	
+	<!-- '큰 카테고리' 검색 sql -->
+	<sql id="bigcategory">
+		<if test="bcategory_num>0">
+			and b.bcategory_num=#{bcategory_num}
+		</if>
+	</sql>
+	
+	<!-- '온/오프라인 검색 sql -->
+	<sql id="classForm">
+		<if test="class_form==0 or class_form==1">
+			and class_form=#{class_form}
+		</if>
+	</sql>
+	
+	<!-- 온라인 수업 : '개월' 검색 sql -->
+	<sql id="month">
+		<if test="class_month>=1">
+			and class_month=#{class_month}
+		</if>
+	</sql>
+	
+	<!-- 검색 조건에 맞는 전체 글 정보 가져오는 sql -->
+	<select id="list" parameterType="hashmap" resultType="classinfo">
+		select c.class_num, class_title, tutor_nickname, class_price, class_hour, class_count, 
+		bcategory_num, bcategory_name,scategory_name, loc.sloc_num, pro_num,
+		date_num, class_date, loc.bloc_name , loc.sloc_name, cover.cover_num, class_regdate
+		from 
+				(
+					select s.bcategory_num, bcategory_name, scategory_num, scategory_name 
+					from small_category s, big_category b
+					where s.bcategory_num=b.bcategory_num 				
+					<include refid="smallcategory"/>								
+					<include refid="bigcategory"/>	
+				)a, class_info c , class_date cd, 
+				(
+					select sloc_num, sloc_name, bloc_name 
+					from  small_location s, big_location b 
+					where s.bloc_num=b.bloc_num
+				)loc,
+				( 
+					SELECT  class_num , cover_num , ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+					FROM class_img group by class_num
+				) cover
+					
+		where a.scategory_num=c.scategory_num 
+		and cd.class_num=c.class_num 
+		and cover.class_num=c.class_num 
+		and loc.sloc_num=c.sloc_num 
+		and cd.time_cnt=1
+		and cnt=1
+		and class_auth=2 and class_status=0
+		<include refid="classForm"/>
+		<include refid="keyword"/>		
+		<include refid="sloc"/>		
+		<include refid="date"/>
+		<include refid="month"/>
+		group by class_num
+		order by class_num desc
+		limit #{startRow},9
+	</select>
+	
+	<!-- totalRowCount : 검색 조건에 맞는 총 글 갯수 구하는 sql -->
+	<select id="count" resultType="int" parameterType="hashmap">
+		select ifnull(count(*),0) from
+		   (
+			   	select c.class_num, class_title, tutor_nickname, bcategory_num, bcategory_name,scategory_name, 
+				date_num, class_date
+				from 
+						(
+							select s.bcategory_num, bcategory_name, scategory_num, scategory_name 
+							from small_category s, big_category b
+							where s.bcategory_num=b.bcategory_num 				
+							<include refid="smallcategory"/>								
+							<include refid="bigcategory"/>	
+						)a, class_info c , class_date cd, 
+						(
+							select sloc_num, sloc_name, bloc_name 
+							from  small_location s, big_location b 
+							where s.bloc_num=s.bloc_num
+						)loc,
+						( 
+							SELECT  class_num , cover_num , ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+							FROM class_img group by class_num
+						) cover
+				where a.scategory_num=c.scategory_num 
+				and cd.class_num=c.class_num
+				and cover.class_num=c.class_num 
+				and loc.sloc_num=c.sloc_num 	
+				and cd.time_cnt=1
+				and cnt=1
+				and class_auth=2 and class_status=0
+				<include refid="classForm"/>
+				<include refid="keyword"/>		
+				<include refid="sloc"/>		
+				<include refid="date"/>
+				<include refid="month"/>
+				group by class_num
+				order by class_num desc			   
+		   )z		   			
+	</select>
+	
+	<update id="statusUpdate" parameterType="hashmap">
+		update class_info set class_auth=1 where ml_num=#{ml_num} and class_num=#{class_num}
+	</update>
+	
+	<update id="salesUpdate" parameterType="hashmap">
+		update class_info set class_status=#{class_status} where ml_num=#{ml_num} and class_num=#{class_num}
+	</update>
+
+	<!-- 해당 수업의 튜터 pro_num, ml_num -->
+	<select id="getTutorinfo" parameterType="int" resultType="classinfo">
+		select pro_num, ml_num from class_info where class_num=#{class_num}
+	</select>
+	
+	<!-- 수업 정보 수정  -->
+	<update id="infoUpdate" parameterType="classinfo">
+		update class_info set
+		scategory_num=#{scategory_num},sloc_num=#{sloc_num},pro_num=#{pro_num},
+		tutor_nickname=#{tutor_nickname},tutor_phone=#{tutor_phone},class_address=#{class_address},class_form=#{class_form},
+		class_max=#{class_max},class_min=#{class_min},
+		class_title = #{class_title},class_price=#{class_price},class_hour=#{class_hour},class_count=#{class_count},
+		tutor_about=#{tutor_about},class_about=#{class_about},class_target=#{class_target},class_regdate=now()
+		where class_num = #{class_num}
+	</update>
+	
+	<update id="classDelete" parameterType="hashmap">
+		update class_info set class_status=2 where ml_num=#{ml_num} and class_num=#{class_num}
+	</update>
+	
+</mapper>
+

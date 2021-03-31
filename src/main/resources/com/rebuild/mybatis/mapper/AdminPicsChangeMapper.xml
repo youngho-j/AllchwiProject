@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AdminPicsChangeMapper">
+	
+	<insert id="picsInsert" parameterType="com.rebuild.project.vo.admin.MainPicsVO">
+		insert into main_pics values(0,#{org_filename},#{save_filename},#{filesize},0,CURRENT_TIMESTAMP(6))
+		<selectKey keyProperty="picNum" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<select id="pics_list" resultType="com.rebuild.project.vo.admin.PicsListVO" parameterType="hashmap">
+		select * from main_pics order by picNum desc
+		limit #{startRow},5
+	</select>
+	
+	<!-- 오라클 NVL 사용 문법 mysql ifnull로 변경 -->
+	<select id="count" resultType="int">
+		select ifnull(count(*),0) cnt from (select * from main_pics) aa
+	</select>
+	
+	
+	<select id="banner_list" resultType="string">
+		select save_filename,picNum from main_pics where pic_onoff=1 order by regdate
+	</select>
+	
+	
+	<update id="reset">
+		update main_pics set pic_onoff=0
+	</update>
+	
+	<update id="confirmPics1" parameterType="string">
+		update main_pics set pic_onoff=1,regdate=CURRENT_TIMESTAMP(6) where save_filename=#{firstPic} 	
+	</update>
+
+	<update id="confirmPics2" parameterType="string">
+		update main_pics set pic_onoff=1,regdate=CURRENT_TIMESTAMP(6) where save_filename=#{secondPic}	
+	</update>
+	
+	<update id="confirmPics3" parameterType="string">
+		update main_pics set pic_onoff=1,regdate=CURRENT_TIMESTAMP(6) where save_filename=#{thirdPic}	
+	</update>
+	
+
+
+
+
+
+</mapper>
+

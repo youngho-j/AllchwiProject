@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.CommunityNoticeMapper">
+	<!-- 1 공지글작성 -->
+	<insert id="writeNotice" parameterType="notice">
+		insert into
+		notice(notice_num, commu_num, class_num, notice_title, notice_content,
+		notice_view, notice_regdate) values(0, #{commu_num}, #{class_num}, #{notice_title}, #{notice_content}, 0, now())
+		<selectKey keyProperty="notice_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	<!--2 온라인 클래스 입장시 세션에 저장된 회원번호와 세션에 저장된 튜터 번호를 가지고 관리자가 맞는지 확인 / 글쓰기 권한-->
+	<select id="adminCheck" parameterType="hashmap" resultType="int">
+		select IFNULL(count(*), 0) cnt
+		from community aa
+		inner join (select class_num from class_info where class_form = 1 and ml_num = #{ml_num}) bb
+		on aa.class_num = bb.class_num
+		where aa.class_num = #{class_num}
+	</select>
+	<!-- 3커뮤니티 공지사항 목록 뽑기 -->
+	<select id="noticeList" resultType="notice" parameterType="hashmap">
+		select * 
+		from notice
+		where commu_num = #{commu_num}
+		order by notice_regdate desc
+		limit #{startRow}, 5
+	</select>
+	<!-- 4커뮤니티 공지사항 글 갯수 -->
+	<select id="count" resultType="int" parameterType="hashmap">
+		select ifnull(count(*),0) cnt 
+		from notice
+		where commu_num = #{commu_num}
+	</select>
+	<!-- 5상세 페이지 vo값 가져오기 -->
+	<select id="getDetail" resultType="notice" parameterType="int">
+		select * 
+		from notice
+		where notice_num = #{notice_num}
+	</select>
+	<!-- 조회수 증가하기 -->
+	<update id="hit" parameterType="int">
+		update notice set notice_view=notice_view+1 where notice_num=#{notice_num}
+	</update>
+	<!-- 다음글 -->
+	<select id="next" parameterType="int" resultType="notice">
+		select * from(
+		 	select * from notice where notice_num > #{notice_num}
+		   	order by notice_num asc
+		) aa
+		limit 1
+	</select>
+	<!-- 이전글 -->
+	<select id="prev" parameterType="int" resultType="notice">
+	   select * from notice
+	   <![CDATA[ where notice_num < #{notice_num} ]]> 
+	   order by notice_num desc 
+	   limit 1 
+	</select>
+	<!-- 글삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from notice where notice_num = #{notice_num}
+	</delete>
+	<!-- 글수정 -->
+	<update id="update" parameterType="notice">
+		update notice set notice_title = #{notice_title}, notice_content = #{notice_content} where notice_num = #{notice_num}
+	</update>
+	<!-- a 해당 주차 글 갯수 가져오기 -->
+	<select id="weekNotice" parameterType="int" resultType="int">
+		select count(*)
+		from notice
+		where commu_num = #{commu_num} and
+    	date_format(notice_regdate,'%Y-%m-%d')
+    	between
+        (select adddate(curdate(), - weekday(curdate()) + 0 ))
+    	and
+        (select adddate(curdate(), - weekday(curdate()) + 6 ))
+	</select>
+</mapper>

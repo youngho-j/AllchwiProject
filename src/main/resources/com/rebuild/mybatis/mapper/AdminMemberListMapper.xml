@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AdminMemberListMapper">
+	
+	<!-- 전체회원에 대한 정보를 뽑아오는 select문 / ifnull로 구문 수정-->
+	<select id="member_list" resultType="com.rebuild.project.vo.admin.MemberListVO">
+		select l.id, l.ml_num, i.mb_num, i.mb_name, i.mb_regdate, i.mb_auth, i.mb_nickname,
+		(select ifnull(count(*),0) cnt from class_apply where ml_num=l.ml_num and apply_auth=1) nowclass,
+		(select ifnull(count(*),0) cnt from class_apply where ml_num=l.ml_num) totclass
+		from member_login l,member_info i
+		where  i.ml_num = l.ml_num;
+	</select>
+	
+	<select id="count" resultType="int">
+		select ifnull(count(*),0) cnt from member_info 
+	</select>
+	
+	<!-- 회원탈퇴여부  member_login테이블 수정 -->
+	<update id="update_mlnum_ml" parameterType="int">
+		update member_login set login_auth=1 where ml_num=#{ml_num}
+	</update>
+	
+	<!-- 회원탈퇴여부 member_info테이블 수정 -->
+	<update id="update_mlnum_mi" parameterType="int">
+		update member_info set mb_auth=1 where ml_num=#{ml_num}
+	</update>
+	
+
+	
+</mapper>
+
+
+
+
+
+
+
+
+

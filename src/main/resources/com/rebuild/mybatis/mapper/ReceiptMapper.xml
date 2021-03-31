@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ReceiptMapper">
+	
+	<select id="receipt_list" resultType="com.rebuild.project.vo.receiveTuition.ReceiptVO" parameterType="hashmap">
+		select ci.class_title, ci.class_num, ci.class_form, p.pay_regdate, p.pay_num, p.final_price/2 final_price, 
+		p.class_finish, ml.id, mi.mb_nickname,img.pro_num,p.class_fee
+		from class_info ci, payment p, member_login ml, member_info mi, profile_img img
+		where ci.class_num = p.class_num and ml.ml_num=p.ml_num and ml.ml_num = mi.ml_num and mi.pro_num=img.pro_num and class_finish=1 and ci.ml_num=#{ml_num}
+		limit #{startRow},6
+	</select>
+	
+	<select id="count" resultType="int"> 
+		select NVL(count(*),0) cnt 
+		from (select ci.class_title, ci.class_num, ci.class_form, p.pay_regdate, p.pay_num, p.final_price/2 final_price, p.class_finish, ml.id, mi.mb_nickname,img.pro_num
+		from class_info ci, payment p, member_login ml, member_info mi, profile_img img
+		where ci.class_num = p.class_num and ml.ml_num=p.ml_num and ml.ml_num = mi.ml_num and mi.pro_num=img.pro_num and class_finish=1)aa
+	</select> 
+	
+	
+	<insert id="insertRemit" parameterType="com.rebuild.project.vo.receiveTuition.InsertRemitVO">
+		insert into remit values(null,#{pay_num},#{rem_pay},#{rem_bank},#{rem_account},now(),0,#{rem_revenue})
+	</insert>
+	
+	<update id="updateRemit" parameterType="int">
+		update payment set class_finish=2 where pay_num=#{pay_num}	
+	</update>
+	
+	
+	
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ClassReviewMapper">
+	<insert id="insertReview" parameterType="classReview">
+		insert into class_review
+		values(null,#{class_num},#{ml_num},#{curr_rating},#{ready_rating},#{kind_rating},
+		#{time_rating},#{review_content},0,now())
+	</insert>
+	<resultMap type="miv" id="miv">
+		<result column="mb_name" property="mb_name"/>
+	</resultMap>
+	<resultMap type="pfv" id="pfv">
+		<result column="pro_num" property="pro_num"/>
+	</resultMap>
+	<resultMap type="classReview" id="classReview">
+		<result column="class_num" property="class_num"/>
+		<result column="review_num" property="review_num"/>
+		<result column="pro_num" property="pro_num"/>
+		<result column="curr_rating" property="curr_rating"/>
+		<result column="ready_rating" property="ready_rating"/>
+		<result column="kind_rating" property="kind_rating"/>
+		<result column="time_rating" property="time_rating"/>
+		<result column="tot_avg" property="tot_avg" />
+		<result column="tot_avg" property="curr_avg" />
+		<result column="ready_avg" property="ready_avg" />
+		<result column="kind_avg" property="kind_avg" />
+		<result column="time_avg" property="time_avg" />
+		<result column="review_content" property="review_content"/>
+		<result column="review_status" property="review_status"/>
+		<result column="review_regdate" property="review_regdate"/>
+		<result column="tutor_nickname" property="tutor_nickname"/>
+		<result column="cnt" property="cnt"/>
+		<collection property="miv" resultMap="miv"/>
+		<collection property="pfv" resultMap="pfv"/>
+	</resultMap>
+	
+	<select id="reviewList" parameterType="hashmap" resultMap="classReview">
+		select
+		r.review_num,r.review_regdate,r.review_content,
+		m.mb_name,p.pro_num
+		from class_review
+		r join member_info m
+		on r.ml_num = m.ml_num
+		join profile_img p
+		on
+		m.pro_num = p.pro_num
+		where class_num=#{class_num} and review_status=0
+		order by review_num desc
+		limit #{startRow},4
+	</select>
+	<select id="rcount" parameterType="hashmap" resultType="int">
+		select ifnull(count(*),0) from	class_review
+		where class_num=#{class_num} and review_status=0
+	</select>
+	<select id="rating">
+		select IFNULL(round(sum(curr_rating +ready_rating+kind_rating+time_rating)/4,1),0) class_rating 
+		from class_review where class_num=aa.class_num
+	</select>
+	<select id="writeOk" parameterType="hashmap" resultType="int">
+		select IFNULL(count(*),0) from class_review where class_num=#{class_num} and ml_num=#{ml_num}
+	</select>
+	<select id="rate_avg" parameterType="int" resultType="classReview">
+		select a.curr_avg,a.ready_avg,a.kind_avg,a.time_avg,
+		truncate(sum(a.curr_avg+a.ready_avg+a.kind_avg+a.time_avg)/4,1) tot_avg
+		from(
+		select round(avg(curr_rating),1) curr_avg,
+		round(avg(ready_rating),1) ready_avg,
+		round(avg(kind_rating),1) kind_avg,
+		round(avg(time_rating),1) time_avg from class_review where class_num=#{class_num}
+		)a;
+
+	</select>
+	<select id="best_tutor" resultType="classReview">
+		select ci.class_num,ci.tutor_nickname,ci.pro_num,
+		truncate(sum(a.curr_avg+a.ready_avg+a.kind_avg+a.time_avg)/4,1) tot_avg,cnt
+		from(
+			select class_num,count(review_num) cnt,round(avg(curr_rating),1) curr_avg,
+			round(avg(ready_rating),1) ready_avg,
+			round(avg(kind_rating),1) kind_avg,
+			round(avg(time_rating),1) time_avg
+			from class_review
+			group by class_num
+		)a
+		join class_info ci
+		on ci.class_num=a.class_num
+		where ci.class_status=0
+		group by ci.class_num
+		order by tot_avg desc, cnt desc
+	</select>
+	
+</mapper>
+
+	

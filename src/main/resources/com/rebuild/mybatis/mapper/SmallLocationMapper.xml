@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.SmallLocationMapper">
+	<insert id="insert" parameterType="sloc">
+		INSERT INTO small_location (sloc_num,bloc_num,sloc_name)
+		SELECT null,#{bloc_num},#{sloc_name} from dual 
+		WHERE NOT EXISTS ( SELECT * FROM small_location WHERE sloc_name = #{sloc_name})
+		<selectKey keyProperty="sloc_num" resultType="int">
+	       	select sloc_num from small_location where sloc_name=#{sloc_name}
+	    </selectKey>
+	</insert>
+	
+	<select id="sloc_list" parameterType="int" resultType="sloc">
+		select sloc_num, sloc_name, bloc_num from small_location where bloc_num=#{bloc_num}
+	</select>
+</mapper>
+

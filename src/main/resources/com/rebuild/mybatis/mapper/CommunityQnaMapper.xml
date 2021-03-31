@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.CommunityQnaMapper">
+	<insert id="insertQna" parameterType="commuQna">
+		insert into commu_qna
+		values(null,#{commu_num},#{ml_num},#{qna_content},(select
+		ifnull(max(qna_ref)+1,1) from commu_qna q),#{qna_lev},now())
+	</insert>
+	<insert id="insertReply" parameterType="commuQna">
+		insert into commu_qna
+		values(null,#{commu_num},#{ml_num},#{qna_content},#{qna_ref},#{qna_lev},now())
+	</insert>
+	
+	<resultMap type="miv" id="miv">
+		<result column="mb_name" property="mb_name"/>
+	</resultMap>
+	<resultMap type="pfv" id="pfv">
+		<result column="pro_num" property="pro_num"/>
+	</resultMap>
+	<resultMap type="commuQna" id="commuQna">
+		<result column="commu_num" property="commu_num"/>
+		<result column="qna_num" property="qna_num"/>
+		<result column="ml_num" property="ml_num"/>
+		<result column="qna_ref" property="qna_ref"/>
+		<result column="qna_lev" property="qna_lev"/>
+		<result column="qna_content" property="qna_content"/>
+		<result column="qna_regdate" property="qna_regdate"/>
+		<result column="tutor_nickname" property="tutor_nickname"/>
+		<result column="pro_num" property="pro_num"/>
+		<collection property="miv" resultMap="miv"/>
+		<collection property="pfv" resultMap="pfv"/>
+	</resultMap>
+	
+	<select id="qnalist" parameterType="hashmap" resultMap="commuQna">
+		select
+		q.qna_num,q.qna_ref,q.qna_lev,q.qna_content,q.qna_regdate,q.ml_num,
+		m.mb_name,p.pro_num
+		from commu_qna q join member_info m
+		on q.ml_num = m.ml_num
+		join profile_img p
+		on m.pro_num = p.pro_num
+		where commu_num=#{commu_num} and qna_lev=0
+		order by qna_ref desc,qna_num asc
+		limit #{startRow},4
+		 	
+	</select>
+	<select id="commlist" parameterType="hashmap" resultMap="commuQna">
+		select  q.qna_num,q.qna_ref,q.qna_lev,q.qna_content,q.qna_regdate,ci.tutor_nickname,ci.pro_num
+        from commu_qna q, community cm, class_info ci 
+        where ci.class_num=cm.class_num and qna_lev=1 and qna_ref=#{qna_ref} and cm.commu_num=#{commu_num}
+        order by qna_ref desc,qna_num asc;
+	</select>
+	<select id="count" resultType="int" parameterType="hashmap">
+		select ifnull(count(*),0) from	commu_qna
+		where commu_num=#{commu_num} and qna_lev=0
+	</select>
+	<select id="replyAuth" parameterType="hashmap" resultType="int">
+		select IFNULL(count(*), 0) cnt
+		from community comm
+		inner join (select class_num from class_info where ml_num = #{ml_num}) ci
+		on comm.class_num = ci.class_num
+		where comm.class_num = #{class_num} ;
+	</select>
+	<update id="editQna" parameterType="hashmap">
+		update commu_qna set qna_content=#{qna_content} where qna_num=#{qna_num}
+	</update>
+	<delete id="delQna" parameterType="int">
+		  delete from commu_qna where qna_num=#{qna_num}
+	</delete>
+</mapper>
+

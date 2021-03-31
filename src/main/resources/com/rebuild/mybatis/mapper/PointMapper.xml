@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.PointMapper">
+	<!--3 포인트번호, 로그인번호(참조), 포인트금액, 포인트적립 및 사용내용, 포인트적립일, 포인트타입(사용[u], 적립[s])-->
+	<insert id="addPoint" parameterType="pv">
+		insert into point values (0, #{ml_num}, #{point}, #{point_name}, now(), #{point_type})
+	</insert>
+	<!-- 포인트 목록 전체, 사용, 적립 정렬조건 -->
+	<sql id="sort">
+		<if test="point_type != null and point_type != ''">
+			and point_type = #{point_type}
+		</if>
+	</sql>
+	<!-- 포인트 리스트 조회, 페이징 처리중 -->	
+	<select id="selectPoint" resultType="plv" parameterType="hashmap">
+		select l.ml_num, i.mb_name, l.id, p.point_num, p.point, p.point_type, p.point_name, p.point_regdate
+		from member_login l, member_info i, point p  
+		where l.ml_num = i.ml_num and l.ml_num = p.ml_num and l.ml_num = #{ml_num}
+		<include refid="sort"/>
+		order by p.point_regdate desc
+		limit #{startRow},5
+	</select>
+	<!-- 회원의 포인트 적립/사용 횟수 조회 -->
+	<select id="count" resultType="int" parameterType="hashmap">
+		select ifnull(count(*),0) cnt
+		from member_login l, member_info i, point p  
+		where l.ml_num = i.ml_num and l.ml_num = p.ml_num and l.ml_num = #{ml_num}
+		<include refid="sort"/>
+		order by p.point_regdate desc
+	</select>
+	<!-- 현재 보유 포인트 조회 / 적립(+) + 사용(-) -->
+	<select id="getTotal" resultType="int" parameterType="hashmap">
+		select 
+		(
+			select ifnull(sum(point),0) from point where ml_num = #{ml_num} and point_type = 's'
+		)
+			+
+		(
+			select ifnull(sum(point*-1),0) from point where ml_num = #{ml_num} and point_type = 'u'
+		) total
+		from dual
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

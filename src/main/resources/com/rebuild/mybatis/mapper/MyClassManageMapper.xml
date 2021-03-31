@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.MyClassManageMapper">
+	<!-- a 클래스 신청한 회원 목록조회  -->
+	<select id="MyClassManage" parameterType="hashmap" resultType="mcm">
+		select aa.class_num, aa.class_title, aa.date_num, bb.apply_num, bb.ml_num, bb.pro_num, bb.mb_name, bb.mb_nickname, bb.apply_auth, bb.final_price, bb.class_fee, bb.apply_regdate 
+		from 
+		(
+		select ci.class_num, ci.class_title, cd.date_num, ci.class_status
+		from class_info ci left join 
+		(select cd.class_num, cd.date_num from class_date cd) cd
+		on ci.class_num = cd.class_num 
+		where ml_num = #{ml_num}
+		) aa inner join
+		(
+		select ca.apply_num, ca.date_num, ca.ml_num, mi.pro_num, mi.mb_name, mi.mb_nickname,ca.apply_auth, p.final_price, p.class_fee, ca.apply_regdate
+		from class_apply ca, member_info mi, payment p
+		where ca.ml_num = mi.ml_num and ca.apply_num = p.apply_num
+		) bb
+		on aa.date_num = bb.date_num
+		<include refid="optionClassNum"/>
+		order by bb.apply_auth asc, bb.apply_regdate desc
+		limit #{startRow}, 5
+	</select>
+	<!-- 
+	class_num = 0 : 전체  = 전체 개설된 수업 중 승인대기, 승인된 신청서 목록
+	class_num = -1 : 기타 = 전체 삭제된 수업 중 승인대기, 승인된 신청서 목록
+	class_num = 그외 : 해당 class_num의 수업 중 승인대기, 승인된 신청서 목록	
+	-->
+	<sql id="optionClassNum">
+		<choose>
+		<when test="class_num == 0">
+			where class_status != 2
+		</when>
+		<when test="class_num != null and class_num != '' and class_num != 0 and class_num == -1">
+			where class_status = 2 
+		</when>
+		<otherwise>
+			where class_status != 2 and class_num = #{class_num}		
+		</otherwise>
+		</choose>
+	</sql>
+	<!-- a 회원번호, 클래스 개설 상태로 개설한 클래스 및 타이틀 가져오기 -->
+	<select id="myClass" parameterType="int" resultType="classInfo">
+		select class_num, class_title from class_info where ml_num = #{ml_num} and class_status != 2
+	</select>
+	
+	<!-- a 목록 카운팅 -->
+	<select id="MyClassCounting" parameterType="hashmap" resultType="int">
+		select NVL(count(*),0) cnt from
+		(
+		select aa.class_num, aa.class_title, aa.date_num, bb.apply_num, bb.ml_num, bb.pro_num, bb.mb_name, bb.mb_nickname, bb.apply_auth, bb.final_price, bb.class_fee, bb.apply_regdate 
+		from 
+		(
+		select ci.class_num, ci.class_title, cd.date_num, ci.class_status
+		from class_info ci left join 
+		(select cd.class_num, cd.date_num from class_date cd) cd
+		on ci.class_num = cd.class_num 
+		where ml_num = #{ml_num}
+		) aa inner join
+		(
+		select ca.apply_num, ca.date_num, ca.ml_num, mi.pro_num, mi.mb_name, mi.mb_nickname,ca.apply_auth, p.final_price, p.class_fee, ca.apply_regdate
+		from class_apply ca, member_info mi, payment p
+		where ca.ml_num = mi.ml_num and ca.apply_num = p.apply_num 
+		) bb
+		on aa.date_num = bb.date_num
+		<include refid="optionClassNum"/>
+		order by bb.apply_auth asc, bb.apply_regdate desc
+		) cc
+	</select>
+	<!-- 신청서 번호로 회원정보 출력 -->
+	<select id="getApply" parameterType="int" resultType="classApply">
+		select * from class_apply where apply_num = #{apply_num}
+	</select>
+	<!-- 신청서 번호로 수업승인 업데이트 -->
+	<update id="updateApply" parameterType="int">
+		update class_apply set apply_auth = 1 where apply_num = #{apply_num}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+

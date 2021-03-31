@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ClassApplyMapper">
+	<insert id="insert" parameterType="classapply">
+		insert into class_apply values(0,#{date_num},#{ml_num},#{stu_lev},#{stu_msg},#{stu_phone},0,now())
+		<selectKey keyProperty="apply_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	<select id="check" parameterType="hashmap" resultType="int">
+		select  count(*) from class_apply a, payment p 
+		where a.apply_num=p.apply_num
+		and p.class_num=#{class_num} and a.ml_num=#{ml_num} and date_num=#{date_num}
+	</select>
+	<select id="list" parameterType="hashmap" resultType="adi">
+		select c.*, apply_auth, apply_regdate from (
+			select cd.class_num, date_num, class_date, class_title, tutor_nickname, tutor_phone, pro_num 
+			from class_date cd, class_info ci
+		    where cd.class_num=ci.class_num
+		) c, class_apply a
+		where c.date_num=a.date_num and apply_num=#{apply_num} and class_num=#{class_num}
+	</select>
+	<select id="applyinfo" parameterType="hashmap" resultType="adi">
+		select apply_num , c.*, apply_auth, apply_regdate from (
+			select cd.class_num, date_num, class_date, class_title, tutor_nickname, tutor_phone, pro_num 
+			from class_date cd, class_info ci
+		    where cd.class_num=ci.class_num
+		) c, class_apply a 
+		where c.date_num=a.date_num and ml_num=#{ml_num} and class_num=#{class_num}
+	</select>
+</mapper>
+

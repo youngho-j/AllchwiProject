@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.CategoryMapper">
+	<insert id="bcate_insert" parameterType="big_category">
+		insert into big_category values(null,#{bcategory_name})
+	</insert>
+	
+
+	<insert id="scate_insert" parameterType="small_category">
+		insert into small_category values(null,#{bcategory_num},#{scategory_name})
+	</insert>
+	
+	<!-- 검색값 나타내기 (5행만 보여주기) -->
+	<select id="search" resultType="com.rebuild.project.vo.admin.BigsmallCategoryVO" parameterType="string">
+		select b.bcategory_num, b.bcategory_name,s.scategory_num,s.bcategory_num,s.scategory_name
+		from big_category b LEFT OUTER JOIN small_category s
+		on s.bcategory_num = b.bcategory_num
+        where b.bcategory_num like CONCAT('%',#{keyword},'%') or bcategory_name like CONCAT('%',#{keyword},'%') or scategory_name like CONCAT('%',#{keyword},'%')
+		limit 0,5
+	</select>
+	
+	<!-- 검색값 나타내기 (전체보여주기) -->
+	<select id="searchMore" resultType="com.rebuild.project.vo.admin.BigsmallCategoryVO" parameterType="string">
+		select b.bcategory_num, b.bcategory_name,s.scategory_num,s.bcategory_num,s.scategory_name
+		from big_category b LEFT OUTER JOIN small_category s
+		on s.bcategory_num = b.bcategory_num
+        where b.bcategory_num like CONCAT('%',#{keyword},'%') or bcategory_name like CONCAT('%',#{keyword},'%') or scategory_name like CONCAT('%',#{keyword},'%')
+	</select>
+	
+	<!-- 카테고리별 보기 - 전체 -->
+	<select id="list" resultType="com.rebuild.project.vo.admin.BigsmallCategoryVO">
+		select b.bcategory_num, b.bcategory_name,s.scategory_num,s.bcategory_num,s.scategory_name
+		from big_category b LEFT OUTER JOIN small_category s
+		on s.bcategory_num = b.bcategory_num 
+	</select>
+	
+	
+	<select id="cate_list" resultType="com.rebuild.project.vo.admin.BigsmallCategoryVO">
+		select b.bcategory_num, b.bcategory_name,s.scategory_num,s.bcategory_num,s.scategory_name
+		from big_category b LEFT OUTER JOIN small_category s
+		on s.bcategory_num = b.bcategory_num 
+		limit 0,5
+	</select>
+	
+	
+	
+	<select id="count" resultType="int">
+		select ifnull(count(*),0) cnt from 
+		(
+			select b.bcategory_num, b.bcategory_name,s.scategory_num,s.scategory_name
+			from big_category b LEFT OUTER JOIN small_category s
+			on s.bcategory_num = b.bcategory_num
+		) aa
+	</select>
+	
+	
+	<select id="searchByCate" resultType="com.rebuild.project.vo.admin.BigsmallCategoryVO" parameterType="int">
+		select b.bcategory_num, b.bcategory_name,s.scategory_num,s.bcategory_num,s.scategory_name
+		from big_category b LEFT OUTER JOIN small_category s
+		on s.bcategory_num = b.bcategory_num 
+		where b.bcategory_num = #{bcategory_num}
+	</select>
+	
+	
+	<select id="searchByCateList5" resultType="com.rebuild.project.vo.admin.BigsmallCategoryVO" parameterType="int">
+		select b.bcategory_num, b.bcategory_name,s.scategory_num,s.bcategory_num,s.scategory_name
+		from big_category b LEFT OUTER JOIN small_category s
+		on s.bcategory_num = b.bcategory_num 
+		where b.bcategory_num = #{bcategory_num}
+		limit 0,5
+	</select>
+	
+	<select id="bcate_check" resultType="string" parameterType="string">
+		select bcategory_name from big_category where bcategory_name = #{bcategory_name}
+	</select>
+	
+	<select id="bcate_list" resultType="big_category">
+		select bcategory_num,bcategory_name from big_category
+	</select>
+	
+	<delete id="del_scate" parameterType="int">
+		delete from small_category where scategory_num=#{scategory_num}
+	</delete>
+	
+	<delete id="del_bcate" parameterType="int">
+		delete from big_category where bcategory_num=#{bcategory_num}
+	</delete>
+	
+	<select id="scate_list" parameterType="int" resultType="small_category">
+		select scategory_num,bcategory_num,scategory_name from small_category where bcategory_num=#{bcategory_num}
+	</select>
+	<select id="scatename" parameterType="int" resultType="String">
+		select scategory_name from small_category where scategory_num=#{scategory_num}
+	</select>
+	<select id="bcatename" parameterType="int" resultType="String">
+		select bcategory_name from big_category where bcategory_num=#{bcategory_num}
+	</select>
+	<select id="allscate_list" resultType="small_category">
+		select scategory_num,s.bcategory_num,scategory_name, bcategory_name from small_category s, big_category b
+		where s.bcategory_num=b.bcategory_num
+	</select>
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+

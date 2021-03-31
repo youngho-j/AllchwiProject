@@ -1,0 +1,139 @@
+@charset "UTF-8";
+.container .container .inner-cont{
+	border-bottom:1px solid #d8d9db;
+	padding:30px 0;
+}
+
+.container .container .inner-cont:after{
+	content:'';
+	display: block;
+	clear: both;
+}
+
+.container .container .inner-cont .label-title{
+	width:20%;
+	float:left;
+	box-sizing:border-box;
+	font-size:16px;
+	font-weight:500;
+	letter-spacing:-0.4px;
+	color:#333;
+}
+
+.container .container .inner-cont .contents{
+	float:left;
+	width:80%;
+	box-sizing:border-box;
+	font-size:14px;
+	letter-spacing:-0.35px;
+	color:#888
+}
+
+.container .container .inner-cont .contents p{
+	color: #888;
+}
+
+.container .container .inner-cont .contents .button_pink_background.mini{
+	display:inline-block;
+	margin-left:6px;
+}
+
+.container .container .inner-cont input[type=text], .container .container .inner-cont textarea{
+	padding:9px;
+	border-radius:4px;
+	background:#fff;
+	border:1px solid #ddd;
+	font-size:14px;
+	color:#666;
+	box-sizing:border-box;
+}
+
+.container .container .inner-cont input[type=text]::placeholder, .container .container .inner-cont textarea::placeholder{
+	color:#888;
+}
+
+
+#nickname, #introduction{
+	width:100%;
+}
+
+#introduction{
+	height:140px;
+	resize: none;
+}
+
+
+.container .container .inner-cont .button_white{
+	display:inline-block;
+	margin-left:10px;
+}
+
+.container .container .inner-cont .count_char{
+	color:#888;
+	font-size:14px;
+	text-align:right;
+	padding:5px;
+}
+
+#btn-cont{
+	padding-top: 20px;
+	text-align: center;	
+}
+#btn-cont input{
+	width: 300px;
+}
+.container .profileHead {
+    position: relative;
+    padding-top: 60px;
+    border-bottom: 1px solid #e4e4e4;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+.container .container .inner-cont .pf {
+    width: 130px;
+    height: 130px;
+    margin: 10px auto;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    overflow: visible;
+    padding: 0;
+}
+.container .container .inner-cont .pf input {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    margin-top: 96px;
+    margin-left: -30px;
+    opacity: 0;
+}
+.container .container .inner-cont .pf .camera {
+    margin-left: -30px;
+    margin-top: 96px;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: top;
+}
+
+input[type="file"] {
+    -webkit-appearance: initial;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+    border-color: initial;
+    border-radius: initial;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}

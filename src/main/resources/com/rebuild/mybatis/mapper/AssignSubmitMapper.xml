@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AssignSubmitMapper">
+	<insert id="insert" parameterType="assignsubmit">
+		insert into assign_submit values(0,#{assign_num},#{ml_num},#{sub_content},now())
+		<selectKey keyProperty="sub_num" resultType="int">
+	      SELECT LAST_INSERT_ID()
+	 	</selectKey>
+	</insert>
+	
+	<select id="list" parameterType="hashmap" resultType="assignsubmit">
+		select a.*, pro_num, mb_name from
+		(
+			select assign_num,assigndata_num, s.ml_num,  s.sub_num, sub_content,sub_regdate, assign_orgFilename 
+			from assign_data d, assign_submit s
+			where  d.sub_num=s.sub_num and assign_num=#{assign_num}) a , member_info m
+		where m.ml_num=a.ml_num
+		order by sub_num desc
+	</select>
+</mapper>

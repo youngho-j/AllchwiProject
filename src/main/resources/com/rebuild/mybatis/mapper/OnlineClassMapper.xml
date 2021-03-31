@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.OnlineClassMapper">
+	<insert id="insert" parameterType="onlineClass">
+		insert into online_class values(#{online_num},#{commu_num},#{online_title},#{online_content},#{online_time},#{online_file},#{online_thumbnail},now())
+		on duplicate key update
+		online_num=#{online_num}, commu_num=#{commu_num}, online_title=#{online_title}, online_content=#{online_content}, online_time=#{online_time}, 
+		online_file=#{online_file}, online_thumbnail=#{online_thumbnail}, online_regdate=now()
+		
+	</insert>
+	
+	<select id="count" parameterType="hashmap" resultType="int">
+		select IFNULL(count(*),0) cnt
+		from online_class where commu_num=#{commu_num}
+	</select>
+	
+	<select id="list" parameterType="hashmap" resultType="onlineClass">
+		select online_num,commu_num,online_title,online_content,online_time,online_file,online_thumbnail,online_regdate
+		from online_class where commu_num=#{commu_num}
+		limit #{startRow},3
+	</select>
+	
+	<select id="getImg" parameterType="int" resultType="onlineClass">
+		select online_thumbnail from online_class where online_num=#{online_num}
+	</select>
+	
+	<select id="select" parameterType="int" resultType="onlineClass">
+		select online_num,commu_num,online_title,online_content,online_time,online_file,online_regdate 
+		from online_class where online_num=#{online_num}
+	</select>
+	
+	<update id="update" parameterType="onlineClass">
+		update online_class set online_title=#{online_title},online_content=#{online_content},online_regdate=now()
+		where online_num=#{online_num}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from online_class where online_num=#{online_num}
+	</delete>
+</mapper>

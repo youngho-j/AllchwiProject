@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.CommunityMapper">
+	<insert id="insert" parameterType="hashmap">
+		insert into community values(null,#{class_num},#{commu_title},now())
+	</insert>
+	
+	<select id="selectChk" parameterType="hashmap" resultType="int">
+	
+		select IFNULL(count(*),0) from community c,class_info i 
+		where c.class_num=i.class_num and c.class_num=#{class_num} and i.ml_num=#{ml_num} 
+	</select>
+	
+	<select id="goCommu" parameterType="hashmap" resultType="commuInfo">
+		select c.commu_num,c.class_num,c.commu_title,c.commu_regdate,i.ml_num from community c,
+		class_info i 
+		where ( 
+			(
+				select count(*) from class_apply a,class_date d,payment p where a.date_num=d.date_num 
+			    <![CDATA[and (SELECT DATE_ADD(class_date, INTERVAL class_month  MONTH))>=now() and a.apply_auth=1 and a.ml_num=#{ml_num}]]>
+			)>=1 or i.ml_num=#{ml_num}
+		) and c.class_num=i.class_num and i.class_num=#{class_num}
+	</select>	
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.rebuild.mybatis.mapper.AdminManageClassMapper">
+
+	<select id="manage_list" resultType="com.rebuild.project.vo.admin.ManageClassVO" parameterType="hashmap">
+		select aa.*,(select ifnull(count(*),0) from class_info ci, class_date cd, class_apply ca
+		where ci.class_num = cd.class_num and cd.date_num =ca.date_num and
+		ca.apply_auth=1 and cd.class_num =aa.class_num) people
+		
+		from
+		(select ci.ml_num, ci.class_num class_num, ci.tutor_nickname, ci.class_title,
+		ci.class_form, sc.scategory_name
+		from class_info ci, small_category sc
+		where ci.scategory_num = sc.scategory_num and ci.class_auth=2)aa 
+		
+		<if test="field!=null and field!=''"> 
+			where ${field} like CONCAT('%',#{keyword},'%') 	
+		</if> 
+		order by class_num desc limit #{startRow},10
+	</select>
+
+	<select id="count" resultType="int" parameterType="hashmap"> 
+		select ifnull(count(*),0) cnt 
+		from (select ci.ml_num, ci.class_num class_num, ci.tutor_nickname, ci.class_title,
+		ci.class_form, sc.scategory_name
+		from class_info ci, small_category sc
+		where ci.scategory_num = sc.scategory_num and ci.class_auth=2)aa
+		<if test="field!=null and field!=''"> 
+			where ${field} like CONCAT('%',#{keyword},'%') 
+		</if> 
+	</select> 
+	
+	
+	
+
+</mapper>
+
+
+

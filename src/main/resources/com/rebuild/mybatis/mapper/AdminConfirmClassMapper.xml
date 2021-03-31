@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AdminConfirmClassMapper">
+	<select id="confirm_list" resultType="com.rebuild.project.vo.admin.ConfirmClassVO" parameterType="hashmap">
+		select aa.*, bb.cover_num,
+		(select ifnull(count(*),0) from class_info ci, class_date cd, class_apply ca 
+		where ci.class_num = cd.class_num and cd.date_num =ca.date_num and
+		ca.apply_auth=1 and cd.class_num =aa.class_num) people, 
+        (select ifnull(count(*),0) from wishlist where class_num=aa.class_num) wish_count
+
+		from 
+		(select ci.class_num, ci.tutor_nickname, ci.class_title, ci.class_auth, ci.class_address, ml.id
+		from class_info ci, member_login ml
+		where ci.ml_num=ml.ml_num and ci.class_auth=1) aa,
+        (SELECT  class_num , cover_num , 
+			ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+			FROM class_img)  bb 
+		where aa.class_num = bb.class_num and cnt=1 order by class_num desc
+		
+		<if test="field!=null and field!=''"> 
+			and ${field} like CONCAT('%',#{keyword},'%') 	
+		</if> 
+		limit #{startRow},4
+	</select>
+	
+	
+	
+	<select id="count" resultType="int" parameterType="hashmap"> 
+		 select ifnull(count(*),0) cnt from (select aa.*, bb.cover_num,
+		(select ifnull(count(*),0) from class_info ci, class_date cd, class_apply ca 
+		where ci.class_num = cd.class_num and cd.date_num =ca.date_num and
+		ca.apply_auth=1 and cd.class_num =aa.class_num) people, 
+        (select ifnull(count(*),0) from wishlist where class_num=aa.class_num) wish_count
+
+		from 
+		(select ci.class_num, ci.tutor_nickname, ci.class_title, ci.class_auth, ci.class_address, ml.id
+		from class_info ci, member_login ml
+		where ci.ml_num=ml.ml_num and ci.class_auth=1) aa,
+        (SELECT  class_num , cover_num , 
+			ROW_NUMBER() OVER (PARTITION BY class_num ORDER BY cover_regdate DESC) cnt 
+			FROM class_img)  bb 
+		where aa.class_num = bb.class_num and cnt=1) cc
+		
+		<if test="field!=null and field!=''"> 
+			where ${field} like CONCAT('%',#{keyword},'%') 
+		</if> 
+	</select> 
+	
+	
+	<update id="acceptClass" parameterType="int">
+		update class_info set class_auth=2 where class_num=#{class_num}
+	</update>
+	
+	<update id="denyClass" parameterType="int">
+		update class_info set class_auth=3 where class_num=#{class_num}
+	</update>
+	
+	
+	
+	<select id="class_detail" parameterType="int" resultType="adminClassDetail">
+		select ci.class_title, ci.class_form, ci.class_hour, ci.class_min, ci.class_max, ci.class_price, ci.tutor_about, ci.class_about, ci.class_target, ci.tutor_nickname,
+		ci.tutor_phone,ci.class_address, sm.sloc_name, big.bloc_name, ci.pro_num, ci.class_address 
+		from class_info ci, small_location sm, big_location big
+		where ci.sloc_num = sm.sloc_num and sm.bloc_num=big.bloc_num and ci.class_num=#{class_num}
+	</select>
+	
+	
+	<select id="certi_list" parameterType="int" resultType="adminCerti">
+		select certif_name,certif_num
+		from class_info ci, certificate cr
+		where ci.class_num = cr.class_num and ci.class_num=#{class_num}
+	</select>
+	
+	
+	<select id="curri_list" parameterType="int" resultType="com.rebuild.project.vo.admin.CurriVO">
+		select curri_count,curri_content from curriculum where class_num=#{class_num}
+	</select>
+	
+</mapper>

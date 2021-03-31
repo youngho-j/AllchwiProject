@@ -1,0 +1,397 @@
+@charset "UTF-8";
+
+#container_detail {
+	width: 100%;
+	padding: 50px 0 50px 0;
+	letter-spacing: 0;
+}
+
+/*       수업 이미지          */
+.carousel-item img {
+	height: auto;
+	max-height: 450px;
+}
+
+.carousel-item.active, .carousel-item-next, .carousel-item-prev {
+	display: block;
+}
+
+/*       네비게이션 바          */
+.class_wrap {
+	background: #ececec;
+}
+
+.class_navi {
+	background: white;
+	color: gray;
+	border-bottom: 1px solid #999;
+	padding: 10px 0px;
+	position: sticky;
+	top: 0px;
+	z-index: 1;
+}
+
+.class_navi.active {
+	position: fixed;
+	width: 44.7%;
+}
+
+.class_navi ul li {
+	width: 150px;
+	display: inline-block;
+	text-align: center;
+	font-size: 20px;
+	padding: 20px 0 20px 0;
+}
+
+.class_navi ul li a.on {
+	color: #ff936f;
+	font-weight: bold;
+	font-size: 20px;
+	border-bottom: 2px solid #ff936f;
+}
+
+.class_wrap .class_detail {
+	background: #ececec;
+	width: 100%
+}
+
+/*        우측네비          */
+.remote {
+	width: 100%;
+	position: sticky;
+	left: 61.5%
+}
+.remote_wrap{
+	background: whitesmoke;
+    width: 530px;
+    padding: 30px;
+}
+.remote.active {
+	position: fixed;
+	top: 0px;
+	width: 22%;
+}
+
+.card {
+	width: 440px;
+	background: white;
+}
+.date{
+    color: #8e8e8e;
+    font-weight: bold;
+    float: left;
+}
+
+/*        수업정보          */
+.roundImg {
+	width: 170px;
+	height: 170px;
+	border-radius: 50%;
+}
+
+.info {
+	line-height: 150%;
+	margin-top: 20px;
+}
+
+.info ul li {
+	width: 120px;
+	text-align: center;
+	float: left;
+	padding-top: 50px;
+	list-style: none;
+}
+
+.starimg img {
+	width: 25px;
+}
+
+.btn_wishlist {
+	padding: 10px 18px;
+	border-radius: 10px;
+	background-color: #ff936f;
+	float: right;
+	color: white;
+	margin-top: -20px;
+}
+
+.btn_wishlist img {
+	width: 20px;
+}
+
+.info ul li.ar {
+	background:
+		url(https://user-images.githubusercontent.com/65140754/86689111-a9a82e00-c041-11ea-8aea-c02eb0d1bfd2.png)
+		center top no-repeat;
+}
+
+.info ul li.hu {
+	background:
+		url(https://user-images.githubusercontent.com/65140754/86689750-3fdc5400-c042-11ea-87f2-fe8364438ff3.png)
+		center top no-repeat;
+}
+
+.info ul li.gr {
+	background:
+		url(https://user-images.githubusercontent.com/65140754/86689737-3c48cd00-c042-11ea-95b3-593fb577963b.png)
+		center top no-repeat;
+}
+
+.info ul li.ohu {
+	background:
+		url(https://user-images.githubusercontent.com/65140754/86689728-3b17a000-c042-11ea-9861-55fe8f7cd520.png)
+		center top no-repeat;
+}
+
+.cert ul li img {
+	width: 30px;
+}
+
+.class_wrap .class_detail .info {
+	line-height: 150%;
+	margin-top: 20px;
+}
+
+.class_wrap .class_detail .tutor_profile {
+	width: 180px;
+	float: left;
+	color: #000;
+	text-align: center;
+	margin: 50px 0 0 50px;
+}
+
+#container_detail .class_wrap .class_detail .tutor_profile .name {
+	width: 180px;
+	font-size: 20px;
+	line-height: 200%;
+}
+
+.class_wrap .class_detail .class_title {
+	float: right;
+	margin: 50px 50px 50px 0;
+    width: 65%;
+    height: 100%;
+    font-size: 16px;
+    overflow: hidden;
+    line-height: 1.4;
+    
+}
+
+.class_wrap .detail_sec_bor {
+	border-top: 1px solid #d2d2d2;
+	overflow: hidden;
+	padding: 0px 80px 80px 80px;
+}
+
+/* 튜터정보 */
+.class_wrap .class_detail .sec01 {
+	padding-top: 125px;
+	position: relative;
+}
+
+.d_info {
+	margin-top: 30px;
+	font-size: 16px;
+	color: #666;
+	line-height: 180%;
+	clear: both;
+	margin-left: 30px;
+	white-space: break-spaces;
+}
+
+.t_info {
+	margin-top: 30px;
+}
+
+.currbox h3 {
+	font-size: 24px;
+	color: #ff6f3f;
+	line-height: 100%;
+	padding-left: 50px;
+	margin: 80px 0 30px 0;
+}
+
+.currbox img {
+	width: 40px;
+	float: left;
+}
+
+/*         리뷰           */
+.btn_write {
+	padding: 10px 20px;
+	border-radius: 10px;
+	background-color: #ff936f;
+	float: right;
+	color: white;
+	margin-top: 10px;
+}
+
+.btn_send {
+	color: white;
+	font-weight: bold;
+}
+
+.review_box {
+	text-align: center;
+	padding: 30px;
+	background: #cacaca54;
+	font-size: 20px;
+	font-weight: bold;
+	color: #000;
+	vertical-align: middle;
+	margin-top: 85px;
+}
+
+#btn_write_review {
+	cursor: pointer;
+}
+
+.sec01 .review_count01 {
+	margin-top: 30px;
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 150px;
+}
+
+.sec01 .review_count01 ul li {
+	width: 324px;
+	height: 60px;
+	float: left;
+	text-align: center;
+	color: #000;
+	cursor: default;
+}
+
+.sec01 .review_list dd {
+	margin-left: 130px;
+}
+
+.sec01 .review_list {
+	position: relative;
+}
+
+.sec01 .review_list dl dt {
+	width: 86px;
+	float: left;
+	text-align: center;
+	font-size: 16px;
+	color: #000;
+	cursor: default;
+	line-height: 100%;
+}
+
+.sec01 .review_list ul li {
+	border-bottom: 1px solid #e5e5e5;
+	padding: 35px 0;
+	cursor: default;
+}
+
+.sec01 .review_list ul li dl {
+	margin-bottom: 3rem;
+}
+
+.review_box img, .review_count01 img {
+	width: 35px;
+}
+/* qna 목록 */
+#qna{
+	padding-bottom: 100ppx;
+}
+.qna_list ul li {
+	border-bottom: 1px solid #e5e5e5;
+	padding: 10px 0;
+	cursor: default;
+}
+
+.qna_list {
+	border: 1px solid #d4cdcd;
+	margin-top: 65px;
+}
+
+.reply_box {
+	margin-top: 20px;
+}
+
+#reply_send {
+	width: 100px;
+	height: 85px;
+	margin-top: -15px;
+	margin-left: 24px;
+}
+/*페이징 css*/
+#paging ul li a.active {
+	background: #7185bb;
+}
+
+/*       튜터 메세지       */
+.tutor_t {
+	margin: 30px;
+}
+
+.tutor_t dl.tutor_txt dt {
+	width: 80px;
+	height: 80px;
+	background: none;
+	padding: 0;
+	border-radius: 100px;
+	overflow: hidden;
+}
+
+.tutor_t dl.tutor_txt dd {
+	width: 300px;
+	left: 100px;
+	top: -80px;
+	border-radius: 5px;
+	padding: 10px;
+	position: relative;
+	background: lightgray;
+	color: #666;
+	letter-spacing: 0;
+	white-space: pre-line;
+}
+
+.tutor_t dl.tutor_txt dd:after {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	position: absolute;
+	border-right-color: lightgray;
+	border-width: 10px;
+	margin-top: -10px;
+}
+
+/*        결제정보          */
+.price {
+	padding: 30px 0 10px 0;
+	overflow: hidden;
+	line-height: 150%;
+}
+
+.hp1 {
+	color: #333;
+	text-align: center;
+	font-size: 20px;
+}
+
+.tp1 {
+	color: #ff6243;
+	text-align: center;
+	font-weight: bold;
+	
+}
+
+.btn_pay {
+	display: inline-block;
+	padding: 10px 0 10px 0;
+	width: 407px;
+	text-align: center;
+	border-radius: 10px;
+	background-color: #7185bb;
+	font-size: 30px;
+	color: white;
+	cursor: pointer;
+}
+.btn_pay.disabled {
+	background-color: #bdbdbd;
+}

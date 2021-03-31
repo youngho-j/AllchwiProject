@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.MemberLoginMapper">
+	<!--0 로그인번호, 아이디, 비밀번호, 튜터여부, 탈퇴여부, 등록일, 이메일 인증 / 최근 번호를 참조 할 수 있도록 selectkey를 걸어줌-->
+	<insert id="member_join" parameterType="mlv">
+		insert into member_login values (0, #{id}, #{pwd}, #{tutor_auth}, #{login_auth}, now(), #{email_auth}, #{kakaoUser})
+		<selectKey keyProperty="ml_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	<!--1 아이디 검사  -->
+	<select id="idCheck" resultType="mlv" parameterType="hashmap">
+		select * from member_login where id = #{id} and kakaoUser = "n"
+	</select>
+	<!-- 카카오 로그인시 아이디 검사 -->
+	<select id="kakaoIdCheck" resultType="mlv" parameterType="hashmap">
+		select * from member_login where kakaoUser = #{kakaoUser}
+	</select>
+	<!-- 전체 아이디 검사 -->
+	<select id="allIdCheck" resultType="mlv" parameterType="hashmap">
+		select * from member_login where id = #{id}
+	</select>
+	<!--2 비밀번호 변경 -->
+	<update id="searchPwd" parameterType="hashmap">
+		update member_login set pwd = #{pwd} where id = #{id}
+	</update>
+	<!--3 현재 비밀번호  확인-->
+	<select id="checkPwd" resultType="mlv" parameterType="hashmap">
+		select * from member_login where id = #{id} and pwd = #{pwd}
+	</select>
+	<!--4 현재 비밀번호 변경 -->
+	<update id="changePwd" parameterType="hashmap">
+		update member_login set pwd = #{pwd} where id = #{id} and pwd = #{prevPwd}
+	</update>
+	<!--5 로그인정보 일치여부 확인 -->
+	<select id="loginCheck" resultType="mlv" parameterType="mlv">
+		select * from member_login where id = #{id} and pwd = #{pwd} and kakaoUser = 'n'
+	</select>
+	<!--6 회원번호로 로그인정보 VO 출력 -->
+	<select id="loginInfo" resultType="mlv" parameterType="int">
+		select * from member_login where ml_num = #{ml_num}
+	</select>
+	<!-- 7회원번호로 탈퇴여부 업데이트 -->
+	<update id="signout" parameterType="hashmap">
+		update member_login set login_auth = #{login_auth} where ml_num = #{ml_num}
+	</update>
+	
+	<update id="tutorAuth" parameterType="int">
+		update member_login 
+		set tutor_auth = case
+		when tutor_auth = 0 and (select ifnull(count(class_num),0) from class_info where ml_num=#{ml_num}) > 0 
+		then 1  
+		when tutor_auth = 1 and (select ifnull(count(class_num),0) from class_info where ml_num=#{ml_num}) = 0 
+		then 0  
+		else 
+			1 
+		end
+		where ml_num=#{ml_num}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+

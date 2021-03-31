@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.ProfileImgMapper">
+	<!--4 이미지번호, 이미지 / 최근 번호를 참조 할 수 있도록 selectkey를 걸어줌-->
+	<insert id="insert" parameterType="piv">
+		insert into profile_img values(0, #{pro_img},#{pro_filename},now())
+		<selectKey keyProperty="pro_num" resultType="int">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	<!-- 처음 기본 이미지 삽입 -->
+	<insert id="addProfile" parameterType="piv">
+		insert into profile_img values(0, #{pro_img},#{pro_filename},now())
+	</insert>
+	<!--a 회원정보의 pro_num으로 이미지, 이미지 파일이름, 수정일자 업데이트 -->
+	<update id="updateImg" parameterType="piv">
+		update profile_img set pro_img = #{pro_img}, pro_filename = #{pro_filename}, pro_regdate = now() where pro_num = #{pro_num}
+	</update>
+	
+	<!-- 이미지 출력 위해 이미지번호 받아 파일이름, 이미지 출력 / 0719 -sql 수정  -->
+	<select id="imgSelect" parameterType="int" resultType="piv">
+		select pro_filename,pro_img from profile_img where pro_num=#{pro_num}
+	</select>
+	
+	<!-- 프로필 이미지 수정 -->
+</mapper>
+
+
+
+
+
+
+
+
+

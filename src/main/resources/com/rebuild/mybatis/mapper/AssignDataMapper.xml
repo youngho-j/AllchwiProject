@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.AssignDataMapper">
+	<insert id="insert" parameterType="assigndata">
+		insert into assign_data values(0,#{sub_num},#{assign_orgFilename},#{assign_saveFilename},now(),#{assigndata_size})
+	</insert>
+	<select id="list" parameterType="int" resultType="assigndata">
+		select * from assign_data where sub_num=#{sub_num}
+	</select>
+	<select id="getSaveFileName" parameterType="int" resultType="assigndata">
+		select assign_savefilename, assign_orgfilename, assigndata_size from assign_data where assigndata_num=#{assigndata_num}
+	</select>
+</mapper>

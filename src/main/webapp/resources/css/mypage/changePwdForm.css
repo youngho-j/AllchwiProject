@@ -1,0 +1,89 @@
+@charset "UTF-8";
+.pw_cont02 {
+	width: 100%;
+	min-width: 1200px;
+	height: 600px;
+	padding-top: 30px;
+}
+
+.pw_cont02 .box1 {
+	width: 1020px;
+	height: 420px;
+	border: 1px solid #ccc;
+	background-color: #ffffff;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.pw_cont02 .box1 .title_box {
+	width: 100%;
+	height: 90px;
+	padding-top: 30px;
+	border-bottom: 1px solid #ccc;
+	letter-spacing: 1px;
+	color: black;
+}
+
+.pw_cont02 .box1 .title_box .left {
+	width: 80%;
+	height: 50px;
+	float: left;
+	padding-left: 50px;
+	font-size: 20px;
+	font-weight: 800;
+}
+
+.pw_cont02 .box1 .main_box {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 20px;
+	padding-top: 10px;
+}
+
+.pw_cont02 .box1 .main_box .input_box {
+	width: 90%;
+	height: 40px;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+.pw_cont02 .box1 .main_box .input_box .left_box {
+	width: 27%;
+	float: left;
+	margin-top: 10px;
+	font-size: 14px;
+	font-weight: 600;
+	color: black;
+	letter-spacing: 1px;
+}
+
+.pw_cont02 .box1 .main_box .input_box .right_box {
+	width: 65%;
+	float: left;
+	font-size: 13px;
+	font-weight: 600;
+	color: black;
+	letter-spacing: 1px;
+}
+/*
+.pw_cont02 .box1 .main_box .input_box .right_box .pw_blank {
+	width: 95%;
+	height: 30px;
+	background-color: rgba(241, 241, 241, 0.43);
+	padding-left: 5%;
+	border: 1px solid #999;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 7px;
+}
+*/
+
+.pw_cont02 .box1 .foot_box {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 50px;
+}
+.foot_box input{
+	width: 200px;
+}

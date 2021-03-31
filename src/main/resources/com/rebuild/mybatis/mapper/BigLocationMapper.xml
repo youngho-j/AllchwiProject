@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rebuild.mybatis.mapper.BigLocationMapper">
+	<insert id="insert" parameterType="bloc">
+		INSERT INTO big_location (bloc_num,bloc_name)
+		SELECT null,#{bloc_name} from dual 
+		WHERE NOT EXISTS ( SELECT * FROM big_location WHERE bloc_name = #{bloc_name})
+		<selectKey keyProperty="bloc_num" resultType="int">
+	       	select bloc_num from big_location where bloc_name=#{bloc_name}
+	    </selectKey>
+	</insert>
+	<select id="bigComfirm" parameterType="string" resultType="bloc">
+		select bloc_num,bloc_name from big_location where bloc_name=#{state}
+	</select>
+	
+	<select id="list" resultType="bloc">
+		select bloc_num,bloc_name from big_location
+	</select>
+</mapper>
+
