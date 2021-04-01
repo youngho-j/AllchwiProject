@@ -291,7 +291,7 @@ img {
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script>
 	window.onload=function(){
-		if(${code=='tutor'}){
+		if("${code}" == 'tutor'){
 			alert("튜터 본인의 수업은 신청이 불가능 합니다!");
 			history.back();
 		}
@@ -582,21 +582,21 @@ img {
 	// [신용카드/체크카드] 버튼 클릭 시, 결제 창 띄움 and ClassApply table insert
 	$("#cardPay").click(function() {
 		  var IMP = window.IMP; // 생략가능
-	      IMP.init('imp41758276'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	      IMP.init('${init}'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 	      var msg;
 	      var final_price=$("input[name='final_price']").val();  
 
 	        IMP.request_pay({
-	            pg : 'html5_inicis',
-	            pay_method : 'vbank',
+	            pg : '${pg}',
+	            pay_method : '${pay_method}',
 	            merchant_uid : 'merchant_' + new Date().getTime(),
-	            name : 'AllChwi Pay',
+	            name : '${name}',
 	            amount : final_price,
-	            buyer_email : 'min47990968@gmail.com',
-	            buyer_name : '정민지',
-	            buyer_tel : '321',
-	            buyer_addr : '123',
-	            buyer_postcode : '123-456',
+	            buyer_email : '${bemail}',
+	            buyer_name : '${bname}',
+	            buyer_tel : '${btel}',
+	            buyer_addr : '${baddr}',
+	            buyer_postcode : '${bpostcode}',
 	    
 	        }, function(rsp) {
 	            if ( rsp.success ) {

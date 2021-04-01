@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,20 +34,37 @@ public class ClassApplyController {
 	private ClassInfoService classInfo_service;
 	@Autowired
 	private PointService point_service;
-
+	@Autowired
+	private ClassApplyService cas;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	// class_num에 해당하는 수업 신청서 페이지로 이동
 	@RequestMapping(value = "/class/apply", method = RequestMethod.GET)
 	public String goClassapply(Model model, int class_num, HttpServletRequest req) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		int ml_num = (int) req.getSession().getAttribute("ml_num");
-
+		//접속한 사람의 회원번호 받아오기
+		int ml_num = (int) req.getSession().getAttribute("ml_num");	
 		ClassInfoVO classvo = classInfo_service.getTutorinfo(class_num);
 		int class_ml_num = classvo.getMl_num();
+		log.debug("접속한 회원번호 = " + String.valueOf(ml_num));
+		log.debug("수업개설 튜터 회원번호 = " + String.valueOf(class_ml_num));
+		
 		if (ml_num == class_ml_num) {
 			model.addAttribute("code", "tutor");
+			model.addAttribute("init", cas.getInit());
+			model.addAttribute("pg", cas.getPg());
+			model.addAttribute("pay_method", cas.getPay_method());
+			model.addAttribute("name", cas.getBname());
+			model.addAttribute("bemail", cas.getBemail());
+			model.addAttribute("bname", cas.getBname());
+			model.addAttribute("btel", cas.getBtel());
+			model.addAttribute("baddr", cas.getBaddr());
+			model.addAttribute("bpostcode", cas.getBpostcode());
 			return ".classapply.ClassApply";
 		} else {
+			log.debug("실행2");
 			map.put("ml_num", ml_num);
 			List<ClassDateVO> classDate_list = classDate_service.select(class_num);
 			int pro_num = classvo.getPro_num();
@@ -54,6 +73,16 @@ public class ClassApplyController {
 			model.addAttribute("point", point);
 			model.addAttribute("pro_num", pro_num);
 			model.addAttribute("class_num", class_num);
+			model.addAttribute("code", "member");
+			model.addAttribute("init", cas.getInit());
+			model.addAttribute("pg", cas.getPg());
+			model.addAttribute("pay_method", cas.getPay_method());
+			model.addAttribute("name", cas.getBname());
+			model.addAttribute("bemail", cas.getBemail());
+			model.addAttribute("bname", cas.getBname());
+			model.addAttribute("btel", cas.getBtel());
+			model.addAttribute("baddr", cas.getBaddr());
+			model.addAttribute("bpostcode", cas.getBpostcode());
 
 			ClassInfoVO vo = classInfo_service.select(class_num);
 			req.setAttribute("class_form", vo.getClass_form());

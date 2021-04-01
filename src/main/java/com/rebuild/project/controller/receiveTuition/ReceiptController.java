@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rebuild.project.page.util.PageUtil;
+import com.rebuild.project.service.login.KakaoLoginService;
 import com.rebuild.project.service.receiveTuition.ReceiptService;
 import com.rebuild.project.vo.receiveTuition.*;
 
@@ -20,6 +21,9 @@ import com.rebuild.project.vo.receiveTuition.*;
 public class ReceiptController {
 	@Autowired
 	private ReceiptService service;
+	
+	@Autowired
+	private KakaoLoginService kls;
 	
 	@RequestMapping(value= {"/receipt/main","/receipt/insert"})
 	public String adminMain(HttpSession session,HttpServletRequest request, Model model,@RequestParam(value="pageNum",defaultValue = "1")int pageNum,
@@ -60,7 +64,7 @@ public class ReceiptController {
 		model.addAttribute("final_price", final_price);
 		model.addAttribute("pay_num", pay_num);
 		model.addAttribute("class_fee", class_fee);
-		
+		model.addAttribute("appkey", kls.getAppKey());
 		
 		return ".receipt.applyRemit";
 	}

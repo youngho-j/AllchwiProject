@@ -394,9 +394,9 @@
 												<fmt:formatDate value="${dlist.class_date}" pattern="yyyy-MM-dd" />
 											</div> 
 											<c:if test="${cdv.class_form==0 }">
-													&nbsp&nbsp ${dlist.class_startTime}~ ${dlist.class_endTime }
+													&nbsp;&nbsp; ${dlist.class_startTime}~ ${dlist.class_endTime }
 													</c:if> <c:if test="${cdv.class_form==1 }">
-														&nbsp&nbsp ${dlist.class_month}개월 과정
+														&nbsp;&nbsp; ${dlist.class_month}개월 과정
 													</c:if>
 										</a>
 									</div>

@@ -8,7 +8,7 @@
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=472c28df1aaa1946fb26fe353232eace&libraries=services"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}=services"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link id="cp" data-contextPath="${cp}" />
 

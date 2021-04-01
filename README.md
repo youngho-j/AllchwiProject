@@ -1,4 +1,4 @@
-# 온/오프라인 취미클래스 수강사이트 Allchwi
+ii4# 온/오프라인 취미클래스 수강사이트 Allchwi
 
 # 목적
 취미를 배우고 싶은 사람과 클래스를 운영하고 싶은 사람을 매칭해주는 웹사이트를 구현하고자 함
@@ -15,9 +15,23 @@
 
 
 # 개발환경
-| 운영체제 	| DB 	| 사용언어 	| 라이브러리/프레임워크	| 개발도구	| Web Server  	|  
-|:--:|:--:|:--:|:--:|:--:|:--:|
-| Window7 	| MariaDB 	| Java, Javascript, CSS 	| jQuery, Mybatis 	|  Spring Tool Suite 3	|  Tomcat 8.5.15	| 
+ - Spring Tool Suite 3  
+ - Tomcat 8.5.15   
+ - Spring MVC  
+ - Maven
+ - aws RDS(Maria DB)  
+ - MyBatis  
+ - JSP
+ - GIt
+
+# 라이브러리 & API
+ - Bootstrap
+ - JQuery
+ - Google Chart 
+ - Java Mail API
+ - KakaoLogin REST API
+ - KakaoMap API
+ - Iamport API
 
 # 기능설명
 
