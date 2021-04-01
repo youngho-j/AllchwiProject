@@ -168,10 +168,13 @@
                   <i class="fas fa-database fa-sm fa-fw mr-2 text-gray-400"></i>
                   	내 포인트
                 </a>
+                <!-- 카카오 회원일경우 안보이도록 -->
+                <c:if test="${sessionScope.access_Token == null}">
                 <a class="dropdown-item" href="${cp}/mypage/changePwd">
                   <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                   	비밀번호 변경
                 </a>
+                </c:if>
                 <a class="dropdown-item" href="${cp}/mypage/signout">
                   <i class="fas fa-times fa-sm fa-fw mr-2 text-gray-400"></i>
                   	회원탈퇴
