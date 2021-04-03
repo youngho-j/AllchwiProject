@@ -9,9 +9,9 @@
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${appkey}&libraries=services"></script>
 <link id="cp" data-contextPath="${cp}"/>
 <input type="hidden" id="ml_num" value="${ml_num }">
-<input type="hidden" id="class_num" value="${class_num }">
-<input type="hidden" id="tutor_num" value="${cdv.ml_num }">
-<input type="hidden" id="finished" value="${finished }">
+<input type="hidden" id="class_num" value="${class_num}">
+<input type="hidden" id="tutor_num" value="${cdv.ml_num}">
+<input type="hidden" id="finished" value="${finished}">
 <div class="container-fluid" id="container_detail">
 	<div class="row">
 		<div class="col-md-12">
@@ -274,8 +274,8 @@
 													<li><dl>
 															<dt>
 																<p class="profile_img"
-																	style="height: 86px; background-size: cover; background-position: center; 
-																	background-image: url(${cp}/mypageImg/getimg?pro_num=${rlist.pfv.pro_num});"></p>
+																	style="height: 86px; background-size: cover; background-position: center; background-image: url(${cp}/mypageImg/getimg?pro_num=${rlist.pfv.pro_num});">
+															    </p>
 																<p class="name">${rlist.miv.mb_name }</p>
 															</dt>
 															<dd>${rlist.review_content }</dd>
@@ -426,19 +426,20 @@
 							<div class="tutor_t">
 								<dl class="tutor_txt">
 									<dt>
-										<div
-											style="background: #000; z-index: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-image: url('${cp}/mypageImg/getimg?pro_num=${cdv.pro_num}');">
-										</div>
+										<div style="background: #000; z-index: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-image: url('${cp}/mypageImg/getimg?pro_num=${cdv.pro_num}');"></div>
 									</dt>
 									<dd>${vo.class_comment}</dd>
 								</dl>
 							</div>
 							</c:if>
 						</c:forEach>
-						<c:if test="${cdv.class_form==0 }">
-							${cdv.class_address }
-							<div id="map" style="width: 450px; height: 250px;"></div>
+						<!-- 카카오 map api -->
+						<c:if test="${cdv.class_form eq 0}">
+							${cdv.class_address}
+							<div id="map" style="width: 450px; height: 250px;">
+							</div>
 						</c:if>
+						
 						<div class="price">
 							<div class="hp1">
 								<b>￦${cdv.class_price}원</b> / 시간
@@ -473,32 +474,34 @@
 		level : 3, // 지도의 확대 레벨
 		draggable: false
 	};
-
-	//지도를 생성합니다    
-	var map = new kakao.maps.Map(mapContainer, mapOption);
-
-	//주소-좌표 변환 객체를 생성합니다
-	var geocoder = new kakao.maps.services.Geocoder();
-
-	//주소로 좌표를 검색합니다
-	geocoder.addressSearch('${cdv.class_address}',
-	function(result, status) {
-	// 정상적으로 검색이 완료됐으면 
-		if (status === kakao.maps.services.Status.OK) {
-			var coords = new kakao.maps.LatLng(result[0].y,result[0].x);
-			// 결과값으로 받은 위치를 마커로 표시합니다
-			var marker = new kakao.maps.Marker({
-				map : map,
-				position : coords
-			});
 	
-			// 인포윈도우로 장소에 대한 설명을 표시합니다
-			var infowindow = new kakao.maps.InfoWindow({
-				content : '<div style="width:150px;text-align:center;padding:6px 0;">${cdv.class_address}</div>'
-			});
-				infowindow.open(map, marker);
-				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다 
-				map.setCenter(coords);
-		}
-	});
+	// 지도를 생성 - 온라인클래스일 경우 장소에대한 주소가 없으로 if문으로 분기    
+	if(mapContainer != null){
+		var map = new kakao.maps.Map(mapContainer, mapOption);	
+		//주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+	
+		//주소로 좌표를 검색합니다
+		geocoder.addressSearch('${cdv.class_address}',
+		function(result, status) {
+		// 정상적으로 검색이 완료됐으면 
+			if (status === kakao.maps.services.Status.OK) {
+				var coords = new kakao.maps.LatLng(result[0].y,result[0].x);
+				// 결과값으로 받은 위치를 마커로 표시합니다
+				var marker = new kakao.maps.Marker({
+					map : map,
+					position : coords
+				});
+		
+				// 인포윈도우로 장소에 대한 설명을 표시합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : '<div style="width:150px;text-align:center;padding:6px 0;">${cdv.class_address}</div>'
+				});
+					infowindow.open(map, marker);
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다 
+					map.setCenter(coords);
+			}
+		});
+	}
+
 </script>

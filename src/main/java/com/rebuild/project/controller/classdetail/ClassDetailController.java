@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +36,9 @@ public class ClassDetailController {
 	private PaymentService ps;
 	@Autowired
 	private KakaoLoginService kls;
-
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping("/classDetail/detail")
 	public ModelAndView detail(int class_num, HttpSession session,
 			@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
@@ -83,6 +87,7 @@ public class ClassDetailController {
 		mv.addObject("class_num", class_num);
 		mv.addObject("appkey", kls.getAppKey());
 		
+		log.debug(".수업 상세보기 detail.jsp 로 이동");
 		return mv;
 	}
 
@@ -135,6 +140,7 @@ public class ClassDetailController {
 		mv.addObject("class_num", class_num);
 		mv.addObject("appkey", kls.getAppKey());
 		
+		log.debug(".관리자페이지에서 수업 상세보기 detail.jsp 로 이동");
 		return mv;
 	}
 }
