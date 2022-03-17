@@ -1,42 +1,33 @@
-## Allchwi - 온/오프라인 취미클래스 수강사이트 
+# Allchwi - 온/오프라인 취미클래스 수강사이트 
+<p align="center"><img src="/main.png" width="60%" height="70%" title="메인페이지"></img></p>
 
-# 목적
+## 프로젝트 기획의도
 취미를 배우고 싶은 사람과 클래스를 운영하고 싶은 사람을 매칭해주는 웹사이트를 구현하고자 함
 
-# 프로젝트 기획의도
 언제나 어디서나 누구나 들을 수 있는 온라인강의부터
 직접 체험하는 오프라인 강의까지!
 
 학생들은 자신이 원하는 수업을 클릭 한번으로 신청 할 수 있고 
 튜터는 자신이 잘하는 것으로 수익을 낼 수 있습니다.
 
-# 메인페이지
-<p align="center"><img src="/main.png" width="60%" height="70%" title="메인페이지"></img></p>
+## 수정사항
+ - 기존 사용 DB(NAS 내 MariaDB)를 AWS RDS로 변경 (22.02 aws free 만료)
+ - 각종 민감 정보 properties 파일로 이관
+ - 카카오 맵 api 출력 오류 수정
+ - 오타 및 불필요한 log 제거 
 
+## 프로젝트 기간
+> 2020.07 - 08
 
-# 개발환경
- - Spring Tool Suite 3  
- - Tomcat 8.5.15   
- - Spring MVC  
- - Maven
- - aws RDS(Maria DB)  
- - MyBatis  
- - JSP
- - GIt
+## 개발환경
+ - Spring Tool Suite 3(MVC pattern)  
+ - aws RDS(Maria DB) (기존 NAS MariaDB에서 변경)  
+ - Java 11 (기존 1.8 에서 변경)
 
-# 라이브러리 & API
- - Bootstrap
- - JQuery
- - Google Chart 
- - Java Mail API
- - KakaoLogin REST API
- - KakaoMap API
- - Iamport API
-
-# 기능설명
-
-## 1. 회원
-
+## 기능
+<details>
+<summary>회원</summary>
+ 
 - 로그인  
 - 프로필  
 - 위시리스트  
@@ -46,26 +37,28 @@
 - 리뷰
 - 마이페이지
 - 커뮤니티
-
-## 2. 관리자
-
-- 카테고리 관리
-- 수업 관리
-- 튜터 심사
-- 수업료 정산
-- 통계
-
-## 3. 튜터
-
+</details>
+<details>
+<summary>튜터</summary>
+ 
 - 수업개설(온/오프라인)
 - 학생관리
 - 수업관리
 - Q&A답변
 - 온라인 커뮤니티 관리(공지사항, 자료실, 강의, 과제, QnA)
 - 수업료 정산
+</details>
+<details>
+<summary>관리자</summary>
+ 
+- 카테고리 관리
+- 수업 관리
+- 튜터 심사
+- 수업료 정산
+- 통계
+</details>
 
-# 프로젝트에서 맡은 역할
-
+## 담당 역할
 ### 회원
 - 로그인(일반, 소셜 - 카카오API)
 - 회원가입
